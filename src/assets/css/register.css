@@ -1,0 +1,131 @@
+@import "index.css";
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: #FFFFFF;
+}
+
+.main {
+  width: 40%;
+  height: 100%;
+  max-width: 110%;
+  max-height: 110%;
+  background: url(../img/home_bg.png) no-repeat left center;
+  background-size: 130%;
+
+}
+
+.title {
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 40px;
+
+  color: #1A202C;
+}
+
+.login_view {
+  position: absolute;
+  width: 350px;
+  height: 215px;
+  left: 55%;
+  top: 25%;
+}
+
+.account_text {
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 42px;
+
+  color: #4A5568;
+}
+
+.account_bar {
+  border: 1px solid #E8E8E8;
+  box-sizing: border-box;
+  border-radius: 10px;
+  width: 350px;
+  height: 50px;
+}
+
+.id_number_text {
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 42px;
+
+  color: #4A5568;
+}
+
+.id_number_bar {
+  border: 1px solid #E8E8E8;
+  box-sizing: border-box;
+  border-radius: 10px;
+  width: 350px;
+  height: 50px;
+}
+
+.password_text {
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 42px;
+
+  color: #4A5568;
+}
+
+.password_bar {
+  border: 1px solid #E8E8E8;
+  box-sizing: border-box;
+  border-radius: 10px;
+  width: 350px;
+  height: 50px;
+}
+
+.password_text2 {
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 42px;
+
+  color: #4A5568;
+}
+
+.password_bar2 {
+  border: 1px solid #E8E8E8;
+  box-sizing: border-box;
+  border-radius: 10px;
+  width: 350px;
+  height: 50px;
+}
+
+.login_button {
+  width: 347px;
+  height: 50px;
+  background: #04C45C;
+  border-radius: 10px;
+  border: 0 double #04C45C;
+
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 42px;
+  color: #FFFFFF;
+  margin-top: 40px;
+}
+
+.login_form input:focus {
+  border: 2px solid #7fc6f0;
+  outline: none;
+}

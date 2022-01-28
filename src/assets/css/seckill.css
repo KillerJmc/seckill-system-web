@@ -1,0 +1,267 @@
+.main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 1000px;
+  z-index: -10;
+  zoom: 1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  background-position: center 0;
+  background-image: linear-gradient(to right, #FFE4E1, #87CEFA);
+}
+
+.title {
+  position: absolute;
+  width: 896px;
+  height: 103px;
+  left: 3%;
+  top: 4.5%;
+
+  font-family: STXingkai, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 45px;
+  line-height: 95%;
+  text-transform: capitalize;
+
+  color: #6E97FF;
+
+  mix-blend-mode: multiply;
+  border: 0 solid #181213;
+}
+
+.customer-pic {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  left: 82%;
+  top: 9%;
+  background-color: pink;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+}
+
+.customer-name {
+  position: absolute;
+  width: 163px;
+  height: 53px;
+  left: 86%;
+  top: 10%;
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 150%;
+  text-transform: capitalize;
+  color: #000000;
+}
+
+.tiger-pic {
+  position: absolute;
+  width: 348px;
+  height: 400px;
+  left: 3%;
+  top: 45%;
+  background: url('../img/seckill_tiger_bg.jpg') no-repeat;
+  mix-blend-mode: multiply;
+  border-radius: 0;
+}
+
+.product-name {
+  position: absolute;
+  width: 650px;
+  height: 120px;
+  left: 38%;
+  top: 22.5%;
+  font-family: STXingkai, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 39px;
+  line-height: 120%;
+  text-transform: capitalize;
+  color: #F4FC94;
+  border: 0 solid rgba(210, 28, 28, 0.57);
+
+}
+
+.product-desc-title {
+  position: absolute;
+  width: 401px;
+  height: 43px;
+  left: 10%;
+  top: 30.5%;
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 33px;
+  line-height: 150%;
+  text-transform: capitalize;
+
+  color: rgba(0, 0, 0, 0.58);
+
+  mix-blend-mode: multiply;
+}
+
+.activity-desc-title {
+  position: absolute;
+  width: 164px;
+  height: 67px;
+  left: 79%;
+  top: 30.5%;
+
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 33px;
+  line-height: 150%;
+  text-transform: capitalize;
+
+  color: rgba(0, 0, 0, 0.61);
+}
+
+
+.product-desc {
+  position: absolute;
+  width: 330px;
+  height: 341px;
+  left: 5%;
+  top: 35%;
+
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 150%;
+  text-transform: capitalize;
+
+  color: rgba(0, 0, 0, 0.47);
+}
+
+.activity-desc {
+  position: absolute;
+  width: 316px;
+  height: 256px;
+  left: 73%;
+  top: 38%;
+
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 22px;
+  line-height: 150%;
+  text-transform: capitalize;
+
+  color: rgba(0, 0, 0, 0.47);
+}
+
+.left-time-msg {
+  position: absolute;
+  width: 426px;
+  height: 62px;
+  left: 36.5%;
+  top: 31.5%;
+
+  font-family: Sansita, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: capitalize;
+
+  color: #E21A1A;
+
+  border: 0 solid #000000;
+}
+
+.timer-style {
+  top: 39%;
+
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 57px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: capitalize;
+  color: #000000;
+}
+
+.hour {
+  position: absolute;
+  width: 91px;
+  height: 53px;
+  left: 41.5%;
+}
+
+.min {
+  position: absolute;
+  width: 91px;
+  height: 53px;
+  left: 47.5%;
+}
+
+.sec {
+  position: absolute;
+  width: 91px;
+  height: 53px;
+  left: 53.5%;
+}
+
+.seperator {
+  position: absolute;
+  width: 36px;
+  height: 114px;
+
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 58px;
+  line-height: 150%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: capitalize;
+
+  color: #000000;
+}
+
+.seperator-sub {
+  left: 45.5%;
+  top: 41.5%;
+}
+
+.seperator-sub2 {
+  left: 51.5%;
+  top: 41.5%;
+}
+
+.seckill-button {
+  background-color: #87CEFA;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 20px 150px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 28px;
+  cursor: pointer;
+  margin: 34.5% 5px 5px 36%;
+}
+
+/* 禁用按钮 */
+.disabled-status {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
