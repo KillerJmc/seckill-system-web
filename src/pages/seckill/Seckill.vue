@@ -1,36 +1,116 @@
 <template>
-  <div class="main">
-    <p class="title">银行秒杀活动</p>
-
-    <div class="customer-pic"></div>
-    <div class="customer-name">lingyuangou</div>
-
-    <div class="product-desc-title">产品介绍</div>
-    <p class="product-desc">一个需要你手速够快的活动，一个东西几乎从不参加售卖的抢购活动，如此划来，如此难得，你还不参加吗？</p>
-    <p class="tiger-pic"></p>
-
-    <div class="activity-desc-title">活动介绍</div>
-    <div class="activity-desc">2021我们携手攻克时艰，感谢有你，对本行的支持，才有了我们今天的成功，为回馈广大客户，我们现决定将一件产品进行售卖，因为产品较为难得，所以采取抢购的方法.</div>
-
-    <div class="product-name">限量一万元定期存款</div>
-
-    <div class="left-time-msg">距离秒杀活动开始仅剩</div>
-
-    <!-- 计时器 -->
-    <p class="hour timer-style">00</p>
-    <div class="seperator seperator-sub">:</div>
-    <p class="min timer-style">00</p>
-    <div class="seperator seperator-sub2">:</div>
-    <p class="sec timer-style">00</p>
-
-    <button class="seckill-button disabled-status">参与秒杀</button>
+  <div>
+    <div class="header">
+      <div class="left-block"></div>
+      <div class="title">
+        <div class="title-logo"></div>
+      </div>
+      <div class="right-block"></div>
+      <div class="account-bar">
+        <div class="account-info">
+        </div>
+        <div class="account-name">{{customerName}}</div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="form">
+        <div class="information">
+          <p>
+            {{productName}} <br><br>
+            库存总量：{{productAmount}}份
+          </p>
+        </div>
+        <div class="time">活动倒计时: <count-down v-if="displayCountDown" :remain-time="countDown" v-on:count-down-end="enableSeckill"></count-down></div>
+        <button @click="seckill" :class="{'enter-button': true, 'disabled': !start}">秒杀</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 
+import Cookies from "js-cookie";
+import MsgMapping from "../../const/msg-mapping";
+import {goto} from "../../util/goto";
+import request from "../../network/request";
+import CountDown from "../../components/CountDown";
+
 export default {
-  name: "Seckill"
+  name: "Seckill",
+  components: {
+    CountDown
+  },
+  data: () => {
+    return {
+      customerName: '',
+      applied: false,
+      startTime: '',
+      productName: '',
+      productAmount: 0,
+
+      displayCountDown: false,
+      countDown: 0,
+      start: false
+    }
+  },
+  async mounted() {
+    let token = Cookies.get('token')
+    console.log('token: ' + token)
+
+    if (token === undefined) {
+      await alert(MsgMapping.NOT_LOGGED_ON)
+      goto('/');
+    }
+
+    let customerInfo = await request.post('/getCustomerInfo')
+    if (customerInfo.code !== 200) {
+      await alert(customerInfo.message)
+      goto('/');
+    }
+
+    this.customerName = customerInfo.data.customerName
+    this.applied = customerInfo.data.applied
+
+    if (!this.applied) {
+      await alert(MsgMapping.DOES_NOT_APPLY)
+      goto('/apply')
+      return
+    }
+
+    let activityData = await request.post('/getCurrentSeckillActivity')
+
+    if (activityData.code !== 200) {
+      await alert(activityData.message)
+      goto('/');
+      return
+    }
+
+    let activity = activityData.data.seckillActivity
+    this.startTime = activity.startTime
+    this.productName = activity.product.name
+    this.productAmount = activity.amount
+
+    let countDownData = await request.post('/getCurrentSeckillCountDown')
+    this.countDown = countDownData.data.countDown
+    // 显示倒计时
+    this.displayCountDown = true
+
+  },
+  methods: {
+    // 子组件结束后发信号让秒杀按钮亮起
+    enableSeckill() {
+      this.start = true
+    },
+
+    async seckill() {
+      if (!this.start) {
+        await alert("秒杀还没开始！")
+        return
+      }
+
+
+    }
+  }
 }
 </script>
 

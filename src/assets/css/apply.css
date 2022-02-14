@@ -34,27 +34,28 @@ body {
 
   background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(31px);
-  /* Note: backdrop-filter has minimal browser support */
 
   border-radius: 15px;
 }
 
 .seckill-time {
+  display: inline-block;
   position: absolute;
   width: 357px;
   height: 50px;
   left: 60px;
   top: 138px;
 
-  font-family: Big Shoulders Display, serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 24px;
+  font-size: 21px;
   line-height: 120%;
-  /* or 29px */
-
-
   color: #000000;
+}
+
+.seckill-time-str {
+  font-size: 21px;
 }
 
 .product-name {
@@ -64,7 +65,7 @@ body {
   left: 60px;
   top: 58px;
 
-  font-family: Big Shoulders Display, serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   font-weight: normal;
   font-size: 40px;
@@ -82,11 +83,9 @@ body {
   left: 60px;
   top: 207px;
 
-  font-family: ABeeZee, serif;
-  font-weight: normal;
-  font-size: 20px;
+  font-family: "Microsoft YaHei", serif;
+  font-size: 25px;
   line-height: 150%;
-  color: #898989;
 
 }
 
@@ -98,9 +97,11 @@ body {
   top: 415px;
   background: #E89F71;
   border-radius: 15px;
-  border-width: 0;
+  border-width: 2px;
+  border-color: white;
 
-  font-family: ABeeZee, serif;
+
+  font-family: "Microsoft YaHei", serif;
   font-weight: normal;
   font-size: 36px;
   line-height: 150%;
@@ -108,22 +109,9 @@ body {
   color: #FFFFFF;
 }
 
-.HeroContent {
-  position: absolute;
-  width: 494px;
-  height: 553px;
-  left: 101px;
-  top: 141px;
-
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
-
-.Content {
-  position: absolute;
-  width: 374px;
-  height: 435px;
-  left: 161px;
-  top: 199px;
+.disabled {
+  background-color: gray;
+  cursor: not-allowed;
 }
 
 .logo {
@@ -133,7 +121,7 @@ body {
   left: 101px;
   top: 48px;
 
-  font-family: Belleza, serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   font-weight: normal;
   font-size: 24px;
@@ -161,9 +149,9 @@ body {
   width: 40px;
   height: 40px;
   left: 1188px;
-  top: 43px;
+  top: 41px;
 
-  background: url('../img/customer-pic.png');
+  background: url('../img/customer_pic.png');
   background-size: cover;
   border-radius: 20px;
 }
@@ -173,12 +161,11 @@ body {
   width: 200px;
   height: 40px;
   left: 1240px;
-  top: 47px;
+  top: 50px;
 
-  font-family: Big Shoulders Display, serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
-  font-weight: normal;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 120%;
 
   color: #3A3A3A;
@@ -208,14 +195,13 @@ body {
   background: rgba(255, 244, 237, 0.6);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
-  font-family: ABeeZee, serif;
+  font-family: "Microsoft YaHei", serif;
   font-size: 20px;
   line-height: 150%;
 }
 
 .seckill-desc-box .title {
   font-size: 25px;
-  font-style: italic;
 }
 
 .seckill-desc-box .desc {
@@ -236,14 +222,13 @@ body {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
 
-  font-family: ABeeZee, serif;
+  font-family: "Microsoft YaHei", serif;
   font-size: 20px;
   line-height: 150%;
 }
 
 .seckill-rule-box .title {
   font-size: 25px;
-  font-style: italic;
 }
 
 .seckill-rule-box .rule {

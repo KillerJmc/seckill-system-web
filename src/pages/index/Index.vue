@@ -1,18 +1,18 @@
 <template>
   <div class="main">
-    <div class="login_view">
+    <div class="login-view">
       <p class="subtitle">欢迎</p>
       <p class="title">账户登陆</p>
 
-      <div class="login_form">
-        <p class="account_text">用户账号</p>
-        <input v-model="accountId" type="text" class="account_bar">
+      <div class="login-form">
+        <p class="account_text">用户账号/身份证号</p>
+        <input v-model="accountIdOrIdNumber" type="text" class="account-bar">
         <p class="password_text">密码</p>
-        <input v-model="password" type="password" class="password_bar">
+        <input v-model="password" type="password" class="password-bar">
       </div>
 
-      <input @click="login" type="button" class="login_button" value="登录">
-      <a href="register.html"><input type="button" class="register_button" value="没有账户？注册一个"></a>
+      <button @click="login" class="login-button">登录</button>
+      <button @click="gotoRegister" class="register-button">没有账户？注册一个</button>
     </div>
   </div>
 </template>
@@ -20,24 +20,50 @@
 <script>
 import crypt from "../../util/crypt.js";
 import request from "../../network/request.js"
+import {goto} from "../../util/goto.js";
+import MsgMapping from "../../const/msg-mapping";
+import Verify from "../../util/verify";
 
 export default {
   name: 'Index',
   data: () => {
     return {
-      accountId: '',
+      accountIdOrIdNumber: '',
       password: ''
     }
   },
   methods: {
     async login() {
-      let hashedPassword = crypt.hash(this.password)
-      let res = await request.post('/login', {
-        accountId: this.accountId,
-        password: hashedPassword
-      })
+      if (this.accountId === '' || this.password === '') {
+        await alert(MsgMapping.ACCOUNT_PWD_NULL_OR_EMPTY)
+        return
+      }
 
-      alert(JSON.stringify(res, null, 4))
+      let hashedPassword = crypt.hash(this.password)
+      let customer = Verify.validIdNum(this.accountIdOrIdNumber) ?
+        {
+          idNumber: this.accountIdOrIdNumber,
+          password: hashedPassword
+        }
+      :
+        {
+          accountId: this.accountIdOrIdNumber,
+          password: hashedPassword
+        }
+
+      let res = await request.post('/login', customer)
+
+      if (res.code === 500) {
+        await alert(res.message)
+        if (res.message !== MsgMapping.LOGIN_REPEAT) {
+          return
+        }
+      }
+
+      goto('/apply')
+    },
+    gotoRegister() {
+      goto('/register')
     }
   }
 }

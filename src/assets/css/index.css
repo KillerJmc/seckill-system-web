@@ -19,7 +19,7 @@ body {
 }
 
 .title {
-  font-family: Roboto, serif;
+  font-family: 'Microsoft YaHei', serif;
   font-style: normal;
   font-weight: bold;
   font-size: 30px;
@@ -29,25 +29,24 @@ body {
 }
 
 .subtitle {
-  font-family: Roboto, serif;
+  font-family: 'Microsoft YaHei', serif;
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 19px;
   color: #2D3748;
-
 }
 
-.login_view {
+.login-view {
   position: absolute;
   width: 350px;
-  height: 215px;
+  height: 245px;
   left: 55%;
   top: 25%;
 }
 
-.account_text {
-  font-family: Roboto, serif;
+.account-text {
+  font-family: 'Microsoft YaHei', serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -55,7 +54,7 @@ body {
   color: #4A5568;
 }
 
-.account_bar {
+.account-bar {
   border: 1px solid #E8E8E8;
   box-sizing: border-box;
   border-radius: 10px;
@@ -63,8 +62,8 @@ body {
   height: 50px;
 }
 
-.password_text {
-  font-family: Roboto, serif;
+.password-text {
+  font-family: 'Microsoft YaHei', serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -72,7 +71,7 @@ body {
   color: #4A5568;
 }
 
-.password_bar {
+.password-bar {
   border: 1px solid #E8E8E8;
   box-sizing: border-box;
   border-radius: 10px;
@@ -80,37 +79,43 @@ body {
   height: 50px;
 }
 
-.login_button {
+.login-button {
   width: 347px;
   height: 50px;
   background: #04C45C;
   border-radius: 10px;
   border: 0 double #04C45C;
-  font-family: Roboto, serif;
+  font-family: 'Microsoft YaHei', serif;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 42px;
   color: #FFFFFF;
   margin-top: 40px;
+  cursor: pointer;
 }
 
-.register_button {
+.register-button {
   width: 347px;
   height: 50px;
   background: #2D3748;
   border-radius: 10px;
   border: 0 double #2D3748;
-  font-family: Roboto, serif;
+  font-family: 'Microsoft YaHei', serif;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 42px;
   color: #FFFFFF;
   margin-top: 20px;
+  cursor: pointer;
 }
 
-.login_form input:focus {
+.login-form {
+  margin-top: 30px;
+}
+
+.login-form input:focus {
   border: 2px solid #7fc6f0;
   outline: none;
 }

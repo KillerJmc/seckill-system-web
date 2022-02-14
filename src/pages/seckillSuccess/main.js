@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import Index from './Index.vue'
+import SeckillSuccess from './SeckillSuccess.vue'
 
 Vue.config.productionTip = false
 
 new Vue({
   el: '#app',
-  render: h => h(Index),
+  render: h => h(SeckillSuccess),
 })
