@@ -27,8 +27,8 @@ export default {
       this.countDown()
       return
     }
-    // 发送结束信号
-    this.$emit('count-down-end')
+    // 发送倒计时结束信号
+    this.$emit("count-down-end")
   },
   methods: {
     countDown () {
@@ -41,8 +41,8 @@ export default {
             self.minute -= 1
           } else if (self.minute === 0 && self.second === 0) {
             self.second = 0
-            // 发送结束信号
-            self.$emit('count-down-end')
+            // 发送倒计时结束信号
+            self.$emit("count-down-end")
             clearInterval(self.timer)
           } else {
             self.second -= 1

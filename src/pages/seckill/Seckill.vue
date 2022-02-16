@@ -9,19 +9,34 @@
       <div class="account-bar">
         <div class="account-info">
         </div>
-        <div class="account-name">{{customerName}}</div>
+        <div class="account-name">{{customer.name}}</div>
       </div>
     </div>
+
     <div class="content">
-      <div class="form">
+      <div class="seckill-form" v-if="!gotoOrderPage">
         <div class="information">
-          <p>
-            {{productName}} <br><br>
-            库存总量：{{productAmount}}份
-          </p>
+          {{product.name}} <br><br>
+          库存总量：{{product.amount}}份
         </div>
-        <div class="time">活动倒计时: <count-down v-if="displayCountDown" :remain-time="countDown" v-on:count-down-end="enableSeckill"></count-down></div>
-        <button @click="seckill" :class="{'enter-button': true, 'disabled': !start}">秒杀</button>
+        <div class="time">
+          活动倒计时:
+          <count-down v-if="countDown.display" :remain-time="countDown.remainSeconds" @count-down-end="countDownEnd" />
+        </div>
+        <div class="button-view">
+          <button @click="seckillButton" :class="{'enter-button': true, 'disabled': !enableSeckillButton}">秒杀</button>
+        </div>
+      </div>
+
+      <div class="seckill-success-form" v-if="gotoOrderPage">
+        <div class="order-info-title">订单信息</div>
+        <div class="order-info">
+          订单编号：{{order.id}}<br>
+          订单金额：{{order.price}}元
+        </div>
+        <div class="button-view">
+          <button @click="payOrderButton" class="enter-button">付款</button>
+        </div>
       </div>
     </div>
   </div>
@@ -42,73 +57,129 @@ export default {
   },
   data: () => {
     return {
-      customerName: '',
-      applied: false,
-      startTime: '',
-      productName: '',
-      productAmount: 0,
+      customer: {
+        name: '',
+        applied: false,
+      },
 
-      displayCountDown: false,
-      countDown: 0,
-      start: false
+      countDown: {
+        display: false,
+        remainSeconds: 0,
+        end: false
+      },
+
+      seckill: {
+        startTime: '',
+        url: ''
+      },
+
+      product: {
+        name: '',
+        amount: 0,
+      },
+
+      order: {
+        id: '',
+        price: 0
+      },
+
+      gotoOrderPage: false,
     }
   },
   async mounted() {
     let token = Cookies.get('token')
     console.log('token: ' + token)
 
+    // 检查token
     if (token === undefined) {
       await alert(MsgMapping.NOT_LOGGED_ON)
       goto('/');
     }
 
+    // 获取客户信息
     let customerInfo = await request.post('/getCustomerInfo')
     if (customerInfo.code !== 200) {
       await alert(customerInfo.message)
       goto('/');
     }
 
-    this.customerName = customerInfo.data.customerName
-    this.applied = customerInfo.data.applied
-
-    if (!this.applied) {
+    // 检查客户是否已经申请该秒杀活动
+    if (!customerInfo.data.applied) {
       await alert(MsgMapping.DOES_NOT_APPLY)
       goto('/apply')
       return
     }
 
-    let activityData = await request.post('/getCurrentSeckillActivity')
+    // 展示客户信息
+    this.customer.name = customerInfo.data.customerName
+    this.customer.applied = customerInfo.data.applied
 
+    // 获取秒杀活动信息
+    let activityData = await request.post('/getCurrentSeckillActivity')
     if (activityData.code !== 200) {
       await alert(activityData.message)
       goto('/');
       return
     }
 
+    // 展示活动信息
     let activity = activityData.data.seckillActivity
-    this.startTime = activity.startTime
-    this.productName = activity.product.name
-    this.productAmount = activity.amount
+    this.seckill.startTime = activity.startTime
+    this.product.name = activity.product.name
+    this.product.amount = activity.amount
 
+    // 获取倒计时秒数
     let countDownData = await request.post('/getCurrentSeckillCountDown')
-    this.countDown = countDownData.data.countDown
-    // 显示倒计时
-    this.displayCountDown = true
+    // 初始化倒计时
+    this.countDown.remainSeconds = countDownData.data.countDown
+    // 展示倒计时
+    this.countDown.display = true
+
+    // 每秒获取一次秒杀链接，获取到之后使按钮亮起开启秒杀
+    let self = this
+    let enableSeckillButtonLoop = setInterval(async () => {
+      let seckillUrlData = await request.post('/getSeckillUrl')
+      if (seckillUrlData.code === 200) {
+        self.seckill.url = seckillUrlData.data.seckillUrl
+        console.log('获取到秒杀链接：' + self.seckill.url)
+        clearInterval(enableSeckillButtonLoop)
+      }
+    }, 1000)
 
   },
   methods: {
-    // 子组件结束后发信号让秒杀按钮亮起
-    enableSeckill() {
-      this.start = true
-    },
-
-    async seckill() {
-      if (!this.start) {
+    async seckillButton() {
+      // 检查秒杀按钮是否开启
+      if (!this.enableSeckillButton) {
         await alert("秒杀还没开始！")
         return
       }
 
+      // 尝试秒杀并获取订单
+      let orderData = await request.post("/seckill/" + this.seckill.url)
+      if (orderData.code !== 200) {
+        await alert(orderData.message)
+        return
+      }
 
+      // 展示订单信息
+      let order = orderData.data.order
+      this.order.id = order.accountId
+      this.order.price = order.orderPrice
+      // 前往订单页面
+      this.gotoOrderPage = true
+    },
+    payOrderButton() {
+      alert("已从您绑定的默认本行卡中扣取款项，支付成功！")
+    },
+    countDownEnd() {
+      this.countDown.end = true
+    }
+  },
+  computed: {
+    // 开启秒杀按钮的条件是得到秒杀id并且倒计时结束
+    enableSeckillButton() {
+      return this.seckill.url !== '' && this.countDown.end
     }
   }
 }

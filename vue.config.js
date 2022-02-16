@@ -23,11 +23,6 @@ module.exports = {
       entry: 'src/pages/seckill/main.js',
       template: 'public/seckill.html',
       filename: 'seckill.html'
-    },
-    seckillSuccess: {
-      entry: 'src/pages/seckillSuccess/main.js',
-      template: 'public/seckill-success.html',
-      filename: 'seckill-success.html'
     }
   }
 }

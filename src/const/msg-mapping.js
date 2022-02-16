@@ -42,5 +42,17 @@ export default {
   SECKILL_NOT_STARTED: "秒杀活动还未开始",
 
   // 秒杀活动已经结束
-  SECKILL_ENDED: "秒杀活动已经结束"
+  SECKILL_ENDED: "秒杀活动已经结束",
+
+  // 商品已经售完
+  PRODUCT_SOLD_OUT: "商品已经售完",
+
+  // 重复购买
+  PURCHASE_REPEAT: "重复购买",
+
+  // 秒杀链接错误
+  INVALID_SECKILL_URL: "秒杀链接错误",
+
+  // 秒杀成功
+  SECKILL_SUCCESS: "秒杀成功"
 }
