@@ -166,6 +166,10 @@ export default {
       let order = orderData.data.order
       this.order.id = order.accountId
       this.order.price = order.orderPrice
+
+      // 展示秒杀成功对话框
+      await alert(MsgMapping.SECKILL_SUCCESS)
+
       // 前往订单页面
       this.gotoOrderPage = true
     },
