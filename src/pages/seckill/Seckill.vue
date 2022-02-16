@@ -164,7 +164,7 @@ export default {
 
       // 展示订单信息
       let order = orderData.data.order
-      this.order.id = order.accountId
+      this.order.id = order.orderId
       this.order.price = order.orderPrice
 
       // 展示秒杀成功对话框
