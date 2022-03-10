@@ -38,10 +38,10 @@
 
 <script>
 
-import request from "../../network/request";
-import {goto} from "../../util/goto";
+import request from "@/network/request";
+
 import Cookies from "js-cookie"
-import MsgMapping from "../../const/msg-mapping";
+import MsgMapping from "@/const/msg-mapping";
 
 export default {
   name: 'Apply',
@@ -70,13 +70,13 @@ export default {
 
     if (token === undefined) {
       await alert(MsgMapping.NOT_LOGGED_ON)
-      goto('/');
+      await this.$router.push('/');
     }
 
     let customerInfo = await request.post('/getCustomerInfo')
     if (customerInfo.code !== 200) {
       await alert(customerInfo.message)
-      goto('/');
+      await this.$router.push('/');
     }
 
     this.customerName = customerInfo.data.customerName
@@ -86,7 +86,7 @@ export default {
 
     if (activityData.code !== 200) {
       await alert(activityData.message)
-      goto('/');
+      await this.$router.push('/');
     }
 
     let activity = activityData.data.seckillActivity
@@ -108,16 +108,14 @@ export default {
       await alert(data.message)
 
       if (data.code === 500) {
-        goto(data.message === MsgMapping.APPLY_REPEAT ? '/seckill' : '/')
+        await this.$router.push(data.message === MsgMapping.APPLY_REPEAT ? '/seckill' : '/')
         return
       }
 
-      goto('/seckill')
+      await this.$router.push('/seckill')
     }
   }
 }
 </script>
 
-<style scoped>
-  @import "../../assets/css/apply.css";
-</style>
+<style src="../assets/css/apply.css" scoped />

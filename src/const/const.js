@@ -3,5 +3,8 @@ export default {
   TARGET_URL: 'http://localhost:9001',
 
   // 自身路径
-  SELF_URL: 'http://localhost'
+  SELF_URL: 'http://localhost',
+
+  // Token名称
+  TOKEN_NAME: 'token'
 }

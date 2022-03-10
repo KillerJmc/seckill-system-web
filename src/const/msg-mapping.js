@@ -5,11 +5,17 @@ export default {
   // 账号或密码错误
   ACCOUNT_OR_PWD_ERROR: "账号或密码错误",
 
+  // 账号必须为纯数字
+  ACCOUNT_MUST_BE_DIGITS: "账号id必须为纯数字！",
+
   // 登录成功
   LOGIN_SUCCESS: "登录成功",
 
   // 姓名，身份证或密码为空
   NAME_ID_NUM_PWD_NULL_OR_EMPTY: "姓名，身份证或密码为空",
+
+  // 两次输入的密码不匹配
+  ENTER_TWICE_PWD_MISMATCH: "两次输入的密码不匹配！",
 
   // 身份证号重复
   ID_NUM_REPEATED: "身份证号重复",

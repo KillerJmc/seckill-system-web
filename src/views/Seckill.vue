@@ -45,10 +45,10 @@
 <script>
 
 import Cookies from "js-cookie";
-import MsgMapping from "../../const/msg-mapping";
-import {goto} from "../../util/goto";
-import request from "../../network/request";
-import CountDown from "../../components/CountDown";
+import MsgMapping from "@/const/msg-mapping";
+
+import request from "@/network/request";
+import CountDown from "@/components/CountDown";
 
 export default {
   name: "Seckill",
@@ -93,20 +93,20 @@ export default {
     // 检查token
     if (token === undefined) {
       await alert(MsgMapping.NOT_LOGGED_ON)
-      goto('/');
+      await this.$router.push('/');
     }
 
     // 获取客户信息
     let customerInfo = await request.post('/getCustomerInfo')
     if (customerInfo.code !== 200) {
       await alert(customerInfo.message)
-      goto('/');
+      await this.$router.push('/');
     }
 
     // 检查客户是否已经申请该秒杀活动
     if (!customerInfo.data.applied) {
       await alert(MsgMapping.DOES_NOT_APPLY)
-      goto('/apply')
+      await this.$router.push('/apply')
       return
     }
 
@@ -118,7 +118,7 @@ export default {
     let activityData = await request.post('/getCurrentSeckillActivity')
     if (activityData.code !== 200) {
       await alert(activityData.message)
-      goto('/');
+      await this.$router.push('/');
       return
     }
 
@@ -189,6 +189,5 @@ export default {
 }
 </script>
 
-<style scoped>
-  @import "../../assets/css/seckill.css";
-</style>
+<style src="../assets/css/seckill.css" scoped />
+

@@ -10,22 +10,19 @@
         <p class="password-text">密码</p>
         <input v-model="password" type="password" class="password-bar" placeholder="请设置您的密码">
         <p class="password-text2">确认密码</p>
-        <input v-model="checkPassword" type="password" class="password-bar2" placeholder="请再次确认您的密码">
+        <input v-model="checkPassword" @keyup.enter="register" type="password" class="password-bar2" placeholder="请再次确认您的密码">
       </div>
       <button @click="register" class="login-button">注册</button>
       <p class="back-text">
-        已有账户，<a href="/" class="back-link">直接登录</a>
+        已有账户，<router-link to="/">直接登录</router-link>
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import crypt from "../../util/crypt.js";
-import request from "../../network/request.js";
-import "../../util/goto.js"
-import {goto} from "../../util/goto";
-import MsgMapping from "../../const/msg-mapping";
+import MsgMapping from "@/const/msg-mapping";
+import Objs from "@/util/objs";
 
 export default {
   name: 'Register',
@@ -39,36 +36,35 @@ export default {
   },
   methods: {
     async register() {
-      if (this.name === '' || this.idNumber === '' || this.password === '' || this.checkPassword === '') {
+      const { name, idNumber, password, checkPassword } = this
+
+      // 检查输入是否非空
+      if (Objs.nullOrEmpty(name, idNumber, password, checkPassword)) {
         await alert(MsgMapping.NAME_ID_NUM_PWD_NULL_OR_EMPTY)
         return
       }
 
-      if (this.password !== this.checkPassword) {
-        await alert("两次输入的密码不匹配！")
+      // 检查密码是否匹配
+      if (password !== checkPassword) {
+        await alert(MsgMapping.ENTER_TWICE_PWD_MISMATCH)
         return
       }
 
-      let hashedPassword = crypt.hash(this.password)
-      let res = await request.post('/register', {
-        name: this.name,
-        idNumber: this.idNumber,
-        password: hashedPassword
+      // 发送注册请求
+      let res = await this.$store.dispatch('customer/register', {
+        name,
+        idNumber,
+        password
       })
 
-      if (res.code === 500) {
-        alert(res.message)
-        return
+      // 如果注册成功就显示给用户注册账号信息并跳转登录界面
+      if (res.code !== 500) {
+        await alert("注册成功，您的账号为：" + res.data.accountId + "，正在为您跳转到登录界面...")
+        await this.$router.push('/')
       }
-
-      let accountId = res.data.accountId
-      await alert("注册成功，您的账号为：" + accountId + "，正在为您跳转到登录界面...")
-      goto("/login")
     }
   }
 }
 </script>
 
-<style scoped>
-  @import "../../assets/css/register.css";
-</style>
+<style src="../assets/css/register.css" scoped />
