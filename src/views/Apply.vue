@@ -1,121 +1,152 @@
 <template>
   <div class="main">
-    <div class="container">
-      <div class="gradient-box"></div>
-      <div class="bg"></div>
-
-      <p class="logo">Lingyuango</p>
-
-      <div class="customer-pic"></div>
-      <div class="customer-name">{{customerName}}</div>
+    <div class="header">
+      <div class="left-block"></div>
+      <div class="title">
+        <div class="title-logo"></div>
+        <p>三湘银行</p>
+      </div>
+      <div class="right-block"></div>
+      <div class="account-bar">
+        <div class="account-info">
+        </div>
+        <div class="account-name">
+          <span>{{ customer.name }}</span>
+        </div>
+      </div>
     </div>
 
-    <div class="product-info-box">
-      <div class="seckill-time">秒杀开始时间：<span class="seckill-time-str">{{startTime}}</span></div>
-      <p class="product-name">{{productName}}</p>
-      <p class="product-desc">{{productInfo}}</p>
-      <button @click="apply" :class="{'apply-button': true, 'disabled': !canApply }">申请购买</button>
+    <div class="bg">
+      <div class="main-box">
+        <p class="seckill-title">{{ activity.product.name }}</p>
+        <p class="seckill-time">秒杀开始时间：{{ activity.startTime }}</p>
+        <button class="button" @click="applyButton">申请购买</button>
+      </div>
+
+      <div class="desc-box">
+        <p class="title">产品简介</p>
+        <p class="desc">{{ activity.product.info }}</p>
+      </div>
+
+      <div class="rule-box">
+        <p class="title">秒杀规则</p>
+        <p class="rule">
+          是否需要有工作：&emsp;&emsp;&emsp; {{ activity.rule.workStatus ? "是" : "否" }} <br>
+          不能处于失信名单中：&emsp; {{ !activity.rule.inCreditBlacklist ? "是" : "否" }} <br>
+          年龄限制：&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; {{ activity.rule.minAge }}~{{ activity.rule.maxAge }}岁 <br>
+          三年内最多逾期次数：&emsp; {{ activity.rule.maxOverdueTimes }}次 <br>
+          三年内最多逾期天数：&emsp; {{ activity.rule.maxOverdueDays }}天 <br>
+          三年内最多逾期金额：&emsp; {{ activity.rule.maxOverdueMoney }}元 <br>
+        </p>
+      </div>
     </div>
 
-    <div class="seckill-desc-box">
-      <p class="title">描述</p>
-      <p class="desc">{{activityInfo}}</p>
-    </div>
-
-    <div class="seckill-rule-box">
-      <p class="title">规则</p>
-      <p class="rule">
-      是否需要有工作：&emsp;&emsp;&emsp; {{activityRule.workStatus ? "是" : "否"}} <br>
-      不能处于失信名单中：&emsp; {{!activityRule.inCreditBlacklist ? "是" : "否"}} <br>
-      年龄限制：&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; {{activityRule.minAge}}岁到{{activityRule.maxAge}}岁 <br>
-      三年内最多逾期次数：&emsp; {{activityRule.maxOverdueTimes}}次 <br>
-      三年内最多逾期天数：&emsp; {{activityRule.maxOverdueDays}}天 <br>
-      三年内最多逾期金额：&emsp; {{activityRule.maxOverdueMoney}}元 <br>
-      </p>
-    </div>
+    <confirm ref="confirmApply" @confirm="apply">
+      <template v-slot:content>
+        <div style="text-align: left; padding-left: 70px">
+          <p>申请人必须满足以下条件</p>
+          <br/>
+          <p>是否需要有工作：{{ activity.rule.workStatus ? "是" : "否" }}</p>
+          <p>不能处于失信名单中：{{ !activity.rule.inCreditBlacklist ? "是" : "否" }}</p>
+          <p>年龄限制：{{ activity.rule.minAge }}~{{ activity.rule.maxAge }}岁</p>
+          <p>三年内最多逾期次数：{{ activity.rule.maxOverdueTimes }}次</p>
+          <p>三年内最多逾期天数：{{ activity.rule.maxOverdueDays }}天</p>
+          <p>三年内最多逾期金额：{{ activity.rule.maxOverdueMoney }}元</p>
+        </div>
+      </template>
+    </confirm>
   </div>
 </template>
 
 <script>
-
-import request from "@/network/request";
-
-import Cookies from "js-cookie"
 import MsgMapping from "@/const/msg-mapping";
+import { Token } from "@/auth/token";
+import Confirm from "@/components/Confirm"
 
 export default {
   name: 'Apply',
+  components: {
+    Confirm
+  },
   data: () => {
     return {
-      customerName: '',
-      canApply: true,
-      startTime: '',
-      productName: '',
-      productInfo: '',
-      activityInfo: '',
-      activityRule: {
-        "workStatus": true,
-        "inCreditBlacklist": false,
-        "minAge": 0,
-        "maxAge": 0,
-        "maxOverdueTimes": 0,
-        "maxOverdueDays": 0,
-        "maxOverdueMoney": 0,
+      customer: {
+        name: '',
+        canApply: false,
+      },
+      activity: {
+        startTime: '',
+        product: {
+          name: '',
+          info: ''
+        },
+        activityInfo: '',
+        rule: {
+          "workStatus": true,
+          "inCreditBlacklist": false,
+          "minAge": 0,
+          "maxAge": 0,
+          "maxOverdueTimes": 0,
+          "maxOverdueDays": 0,
+          "maxOverdueMoney": 0,
+        }
       }
     }
   },
   async mounted() {
-    let token = Cookies.get('token')
-    console.log('token: ' + token)
-
-    if (token === undefined) {
-      await alert(MsgMapping.NOT_LOGGED_ON)
-      await this.$router.push('/');
-    }
-
-    let customerInfo = await request.post('/getCustomerInfo')
-    if (customerInfo.code !== 200) {
-      await alert(customerInfo.message)
-      await this.$router.push('/');
-    }
-
-    this.customerName = customerInfo.data.customerName
-    this.canApply = customerInfo.data.canApply
-
-    let activityData = await request.post('/getCurrentSeckillActivity')
-
-    if (activityData.code !== 200) {
-      await alert(activityData.message)
-      await this.$router.push('/');
-    }
-
-    let activity = activityData.data.seckillActivity
-    this.startTime = activity.startTime
-    this.productName = activity.product.name
-    this.productInfo = activity.product.info
-    this.activityInfo = activity.activityInfo
-    this.activityRule = activity.activityRule
+    await this.init()
   },
   methods: {
+    // 初始化页面函数
+    async init() {
+      // 没有token就回到登录界面
+      if (!Token.verify()) {
+        await this.$router.push('/');
+      }
+
+      // 获取客户信息
+      let customerInfo = await this.$store.dispatch('customer/getInfo')
+
+      // 请求当前秒杀活动信息
+      let activityInfo = await this.$store.dispatch('activity/getCurrent')
+
+      // 请求失败就返回登录界面
+      if (customerInfo.code === 500 || activityInfo.code === 500) {
+        await this.$router.push('/');
+      }
+
+      // 填充客户信息
+      this.customer = customerInfo.data
+
+      // 填充秒杀活动信息
+      this.activity = activityInfo.data.activity
+    },
+
+    // 申请按钮
+    applyButton() {
+      // 显示确认对话框
+      this.$refs.confirmApply.show({
+        title: '申请须知',
+        confirmText: '确定申请'
+      })
+    },
+
+    // 申请
     async apply() {
-      if (!this.canApply) {
+      // 如果不符合条件就显示失败信息
+      if (!this.customer.canApply) {
         await alert(MsgMapping.APPLY_FAILED)
         return
       }
 
-      let data = await request.post('/applyForSeckill')
+      // 发送申请请求
+      let res = await this.$store.dispatch('activity/apply')
 
-      await alert(data.message)
-
-      if (data.code === 500) {
-        await this.$router.push(data.message === MsgMapping.APPLY_REPEAT ? '/seckill' : '/')
-        return
-      }
-
-      await this.$router.push('/seckill')
+      // 申请成功或重复申请 就跳转到秒杀页面，否则返回主页
+      await this.$router.push(res.code === 200 || res.message === MsgMapping.APPLY_REPEAT ? '/seckill' : '/')
     }
   }
 }
 </script>
 
-<style src="../assets/css/apply.css" scoped />
+<style src="../assets/css/apply.css" scoped/>

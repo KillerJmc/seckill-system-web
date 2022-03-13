@@ -3,6 +3,7 @@ import Crypt from "@/util/crypt";
 import Verify from "@/util/verify";
 
 export default class Customer {
+  // 登录接口
   static async login(data) {
     const { accountIdOrIdNumber, password } = data
 
@@ -18,6 +19,7 @@ export default class Customer {
     return await request.post('/login', loginForm)
   }
 
+  // 注册接口
   static async register(data) {
     const { name, idNumber, password } = data
 
@@ -30,6 +32,11 @@ export default class Customer {
       idNumber,
       password: hashedPassword
     })
+  }
+
+  // 获取客户信息接口
+  static async getInfo() {
+    return await request.post('/getCustomerInfo')
   }
 }
 

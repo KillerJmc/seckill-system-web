@@ -5,9 +5,9 @@
       <p class="title">账户登陆</p>
 
       <div class="login-form">
-        <p class="account_text">用户账号/身份证号</p>
+        <p class="account-text">用户账号/身份证号</p>
         <input v-model="accountIdOrIdNumber" type="text" class="account-bar">
-        <p class="password_text">密码</p>
+        <p class="password-text">密码</p>
         <input v-model="password" @keyup.enter="login" type="password" class="password-bar">
       </div>
 
@@ -30,6 +30,7 @@ export default {
     }
   },
   methods: {
+    // 登录按钮
     async login() {
       const { accountIdOrIdNumber, password } = this
 

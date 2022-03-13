@@ -28,7 +28,7 @@ body {
   color: #1A202C;
 }
 
-.login-view {
+.register-view {
   position: absolute;
   width: 350px;
   height: 215px;
@@ -39,7 +39,6 @@ body {
 .account-text {
   font-family: 'Microsoft YaHei', serif;
   font-style: normal;
-  font-size: 16px;
   line-height: 42px;
 
   color: #4A5568;
@@ -51,6 +50,7 @@ body {
   border-radius: 10px;
   width: 350px;
   height: 50px;
+  font-size: 16px;
 }
 
 .id-number-text {
@@ -67,6 +67,7 @@ body {
   border-radius: 10px;
   width: 350px;
   height: 50px;
+  font-size: 16px;
 }
 
 .password-text {
@@ -84,6 +85,7 @@ body {
   border-radius: 10px;
   width: 350px;
   height: 50px;
+  font-size: 16px;
 }
 
 .password-text2 {
@@ -101,9 +103,10 @@ body {
   border-radius: 10px;
   width: 350px;
   height: 50px;
+  font-size: 16px;
 }
 
-.login-button {
+.register-button {
   width: 347px;
   height: 50px;
   background: #04C45C;
@@ -120,7 +123,7 @@ body {
   cursor: pointer;
 }
 
-.login-form input:focus {
+.register-form input:focus {
   border: 2px solid #7fc6f0;
   outline: none;
 }

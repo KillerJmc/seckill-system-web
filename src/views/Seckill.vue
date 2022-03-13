@@ -123,7 +123,7 @@ export default {
     }
 
     // 展示活动信息
-    let activity = activityData.data.seckillActivity
+    let activity = activityData.data.activity
     this.seckill.startTime = activity.startTime
     this.product.name = activity.product.name
     this.product.amount = activity.amount

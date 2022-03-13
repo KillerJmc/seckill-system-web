@@ -1,8 +1,8 @@
 <template>
   <div class="main">
-    <div class="login-view">
+    <div class="register-view">
       <p class="title">账户注册</p>
-      <div class="login-form">
+      <div class="register-form">
         <p class="account-text">用户姓名</p>
         <input v-model="name" type="text" class="account-bar" placeholder="请输入您的真实姓名">
         <p class="id-number-text">身份证号码</p>
@@ -12,7 +12,7 @@
         <p class="password-text2">确认密码</p>
         <input v-model="checkPassword" @keyup.enter="register" type="password" class="password-bar2" placeholder="请再次确认您的密码">
       </div>
-      <button @click="register" class="login-button">注册</button>
+      <button @click="register" class="register-button">注册</button>
       <p class="back-text">
         已有账户，<router-link to="/">直接登录</router-link>
       </p>
@@ -35,6 +35,7 @@ export default {
     }
   },
   methods: {
+    // 注册按钮
     async register() {
       const { name, idNumber, password, checkPassword } = this
 
