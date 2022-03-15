@@ -10,4 +10,19 @@ export default class Activity {
   static apply() {
     return request.post('/applyForSeckill')
   }
+
+  // 获取倒计时接口
+  static getCountDown() {
+    return request.post('/getCurrentSeckillCountDown')
+  }
+
+  // 获取秒杀链接接口
+  static getSeckillUrl() {
+    return request.post('/getSeckillUrl')
+  }
+
+  // 秒杀接口
+  static seckill(seckillUrl) {
+    return request.post('seckill/' + seckillUrl)
+  }
 }

@@ -38,5 +38,20 @@ export default {
       commit('customer/setCanApply', true, { root: true })
     }
     return res
+  },
+
+  // 获得活动倒计时事件
+  async getCountDown() {
+    return Activity.getCountDown()
+  },
+
+  // 获取秒杀链接事件
+  async getSeckillUrl() {
+    return Activity.getSeckillUrl()
+  },
+
+  // 秒杀事件
+  async seckill(context, seckillUrl) {
+    return Activity.seckill(seckillUrl)
   }
 }

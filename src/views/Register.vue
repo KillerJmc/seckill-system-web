@@ -28,9 +28,13 @@ export default {
   name: 'Register',
   data: () => {
     return {
+      // 姓名
       name: '',
+      // 身份证号
       idNumber: '',
+      // 密码
       password: '',
+      // 确认密码
       checkPassword: ''
     }
   },

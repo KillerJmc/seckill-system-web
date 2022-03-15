@@ -66,21 +66,32 @@ import Confirm from "@/components/Confirm"
 export default {
   name: 'Apply',
   components: {
+    // 确认框组件
     Confirm
   },
   data: () => {
     return {
+      // 客户信息
       customer: {
+        // 客户姓名
         name: '',
+        // 是否可以申请活动
         canApply: false,
       },
+      // 活动
       activity: {
+        // 开始时间
         startTime: '',
+        // 商品信息
         product: {
+          // 商品名称
           name: '',
+          // 商品介绍
           info: ''
         },
+        // 活动信息
         activityInfo: '',
+        // 活动规则
         rule: {
           "workStatus": true,
           "inCreditBlacklist": false,
@@ -149,4 +160,4 @@ export default {
 }
 </script>
 
-<style src="../assets/css/apply.css" scoped/>
+<style src="../assets/css/apply.css" scoped />

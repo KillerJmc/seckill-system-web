@@ -25,7 +25,9 @@ export default {
   name: 'Index',
   data: () => {
     return {
+      // 账号或身份证号
       accountIdOrIdNumber: '',
+      // 密码
       password: ''
     }
   },
