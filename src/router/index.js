@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
@@ -32,7 +32,7 @@ const router = createRouter({
 
 // 设置页面标题
 router.beforeEach((to, from, next) => {
-  document.title = to.name.toString();
+  document.title = to.name
   next()
 });
 

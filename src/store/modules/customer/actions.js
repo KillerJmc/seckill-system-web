@@ -2,7 +2,7 @@ import Customer from "@/api/customer";
 
 export default {
   // 登录事件
-  login({ commit }, data) {
+  login(context, data) {
     // 发送api请求
     return Customer.login(data);
   },
