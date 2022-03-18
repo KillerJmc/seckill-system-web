@@ -3,7 +3,7 @@
     <div class="header">
       <div class="left-block"></div>
       <div class="title">
-        <div class="title-logo"></div>
+        <p>Lingyuangou</p>
       </div>
       <div class="right-block"></div>
       <div class="account-bar">

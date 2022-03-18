@@ -19,6 +19,23 @@ body {
     height: 100%;
 }
 
+.title {
+    float: left;
+    height: 100%;
+    width: 259px;
+    display: flex;
+    align-items: center;
+    font-family: "Microsoft Yahei", sans-serif;
+}
+
+.title > p {
+    font-weight: 700;
+    font-size: 25px;
+    margin-left: 10px;
+    font-family: "Microsoft Yahei", sans-serif;
+    color: #313d80;
+}
+
 .right-block {
     float: right;
     width: 20px;
@@ -33,7 +50,7 @@ body {
 }
 
 .account-info {
-    background: url(../img/customer_pic.png) no-repeat;
+    background: url(../img/user_pic.png) no-repeat;
     background-size: 100%;
     height: 30px;
     width: 30px;
@@ -43,28 +60,10 @@ body {
     margin-left: 10px;
     font-size: 14px;
     text-align: center;
+    font-family: "Microsoft Yahei", sans-serif;
 }
 
-.title {
-    float: left;
-    height: 100%;
-    width: 259px;
-    display: flex;
-    align-items: center;
-}
 
-.title-logo {
-    background: url(../img/bank_logo.png) no-repeat;
-    background-size: 100%;
-    height: 50px;
-    width: 259px;
-}
-
-.title>p {
-    font-weight: 700;
-    font-size: 25px;
-    margin-left: 10px;
-}
 
 .content {
     position: absolute;
@@ -72,10 +71,8 @@ body {
     bottom: 0;
     width: 100%;
     height: calc(100% - 64px);
-    background: url(../img/seckill_bg.jpg);
-    background-repeat: no-repeat;
+    background: url(../img/seckill_bg.jpg) no-repeat center top;
     background-size: cover;
-    background-position: center top;
     display: flex;
     align-items: center;
 }
