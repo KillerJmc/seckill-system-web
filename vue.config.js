@@ -1,10 +1,11 @@
 module.exports = {
+  // 服务器启动端口
   devServer: {
     port: 80
   },
-  // 设置的是相对路径
+  // 相对路径加载资源文件
   publicPath: './',
-  // 配置外部模块
+  // 配置不加入trunk的外部模块（用于CDN加速）
   configureWebpack: {
     externals: {
       'vue': 'Vue',
