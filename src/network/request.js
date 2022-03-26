@@ -1,9 +1,7 @@
 import axios from "axios";
-import Const from "../const/const.js"
 
 // 默认配置
 let instance = axios.create({
-  baseURL: Const.TARGET_URL,
   timeout: 10000,
   withCredentials: true
 })

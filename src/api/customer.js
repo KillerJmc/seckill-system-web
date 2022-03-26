@@ -1,6 +1,7 @@
 import request from "@/network/request";
 import Crypt from "@/util/crypt";
 import Verify from "@/util/verify";
+import Const from "@/const/const"
 
 export default class Customer {
   // 登录接口
@@ -16,7 +17,7 @@ export default class Customer {
       { accountId: accountIdOrIdNumber, password: hashedPassword }
 
     // 发送登录请求
-    return await request.post('/login', loginForm)
+    return await request.post(Const.ACCOUNT_URL + '/login', loginForm)
   }
 
   // 注册接口
@@ -27,7 +28,7 @@ export default class Customer {
     let hashedPassword = Crypt.hash(password)
 
     // 发送注册请求
-    return await request.post('/register', {
+    return await request.post(Const.ACCOUNT_URL + '/register', {
       name,
       idNumber,
       password: hashedPassword
@@ -36,7 +37,7 @@ export default class Customer {
 
   // 获取客户信息接口
   static async getInfo() {
-    return await request.post('/getCustomerInfo')
+    return await request.post(Const.ACCOUNT_URL + '/getInfo')
   }
 }
 

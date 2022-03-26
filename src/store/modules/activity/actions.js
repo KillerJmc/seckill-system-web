@@ -1,4 +1,5 @@
 import Activity from "@/api/activity";
+import MsgMapping from "@/const/msg-mapping";
 
 export default {
   // 获取当前秒杀活动信息事件
@@ -29,10 +30,14 @@ export default {
     // 发送api请求
     let res = await Activity.apply()
 
-    // 如果请求成功
+    // 如果申请成功
     if (res.code === 200) {
       // 提示用户申请成功
       await alert(res.message)
+    }
+
+    // 如果请求成功或者重复申请
+    if (res.code === 200 || res.message === MsgMapping.APPLY_REPEAT) {
       // 更新Vuex缓存
       console.log('apply: update cache (customer.canApply -> true)')
       commit('customer/setCanApply', true, { root: true })

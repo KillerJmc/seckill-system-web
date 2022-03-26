@@ -1,10 +1,13 @@
-export default {
-  // 发送请求的目标路径
-  TARGET_URL: 'http://localhost:9001',
+export default class Const {
+  // 目标基础路径
+  static TARGET_BASE_URL = 'http://localhost'
 
-  // 自身路径
-  SELF_URL: 'http://localhost',
+  // 账号后端路径
+  static ACCOUNT_URL = Const.TARGET_BASE_URL + ':9010/customer'
+
+  // 秒杀活动后端路径
+  static ACTIVITY_URL = Const.TARGET_BASE_URL + ':9030/seckillActivity'
 
   // Token名称
-  TOKEN_NAME: 'token'
+  static TOKEN_NAME = 'token'
 }
