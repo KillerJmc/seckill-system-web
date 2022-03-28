@@ -129,7 +129,7 @@ export default {
       this.customer = customerInfo.data
 
       // 填充秒杀活动信息
-      this.activity = activityInfo.data.activity
+      this.activity = activityInfo.data
     },
 
     // 申请按钮

@@ -9,9 +9,7 @@ export default {
       console.log('activity: get from cache!')
       return {
         code: 200,
-        data: {
-          activity: state.activity
-        }
+        data: state.activity
       }
     }
 
@@ -20,7 +18,7 @@ export default {
 
     // 如果请求成功就放入Vuex缓存
     if (res.code === 200) {
-      commit('setActivity', res.data.activity)
+      commit('setActivity', res.data)
     }
     return res
   },

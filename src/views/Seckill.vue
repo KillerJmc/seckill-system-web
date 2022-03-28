@@ -126,7 +126,7 @@ export default {
     this.customer = customerInfo.data
 
     // 填充秒杀活动信息
-    this.activity = activityInfo.data.activity
+    this.activity = activityInfo.data
 
     // 如果没有申请活动就返回申请页面
     if (!this.customer.applied) {
@@ -135,10 +135,8 @@ export default {
       return
     }
 
-    // 获取倒计时秒数
-    let countDownData = await this.$store.dispatch('activity/getCountDown')
-    // 初始化倒计时
-    this.countDown.remainSeconds = countDownData.data.countDown
+    // 获得倒计时秒数并初始化倒计时组件
+    this.countDown.remainSeconds = await this.$store.dispatch('activity/getCountDown').data
     // 展示倒计时
     this.countDown.display = true
 
@@ -147,7 +145,7 @@ export default {
     let enableSeckillButtonLoop = setInterval(async () => {
       let res = await this.$store.dispatch('activity/getSeckillUrl')
       if (res.code === 200) {
-        self.seckillUrl = res.data.seckillUrl
+        self.seckillUrl = res.data
         console.log('获取到秒杀链接：' + self.seckillUrl)
         clearInterval(enableSeckillButtonLoop)
       }
