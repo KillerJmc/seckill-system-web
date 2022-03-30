@@ -40,6 +40,7 @@
       </div>
     </div>
 
+    <!-- 确定申请对话框 -->
     <confirm ref="confirmApply" @confirm="apply">
       <template v-slot:content>
         <div style="text-align: left; padding-left: 70px">
@@ -54,6 +55,9 @@
         </div>
       </template>
     </confirm>
+
+    <!-- 确定申请的结果 -->
+    <confirm ref="confirmApplyResult" @confirm="applyResult"/>
   </div>
 </template>
 
@@ -145,15 +149,34 @@ export default {
     async apply() {
       // 如果不符合条件就显示失败信息
       if (!this.customer.canApply) {
-        await alert(MsgMapping.APPLY_FAILED)
+        this.$refs.confirmApplyResult.show({
+          title: '申请结果',
+          type: 'alert',
+          // 内容为申请失败
+          content: MsgMapping.APPLY_FAILED
+        })
         return
       }
 
       // 发送申请请求
       let res = await this.$store.dispatch('activity/apply')
 
+      // 显示确认申请的结果对话框
+      await this.$refs.confirmApplyResult.show({
+        title: '申请结果',
+        type: 'alert',
+        // 内容为申请结果信息
+        content: res.message,
+        // 传入数据为申请结果
+        data: res
+      })
+    },
+
+    applyResult() {
+      // 申请结果数据
+      let res = this.$refs.confirmApplyResult.data;
       // 申请成功或重复申请 就跳转到秒杀页面，否则返回主页
-      await this.$router.push(res.code === 200 || res.message === MsgMapping.APPLY_REPEAT ? '/seckill' : '/')
+      this.$router.push(res.code === 200 || res.message === MsgMapping.APPLY_REPEAT ? '/seckill' : '/')
     }
   }
 }

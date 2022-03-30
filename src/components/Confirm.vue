@@ -4,7 +4,9 @@
       <div class="confirm-content-wrap">
         <h3 class="my-confirm-title">{{ title }}</h3>
         <p class="my-confirm-content">
-          <slot name="content"></slot>
+          <slot name="content">
+            {{ this.content }}
+          </slot>
         </p>
         <div class="my-operation">
           <div class="confirm-btn" @click="confirm">
@@ -22,7 +24,7 @@
 <script>
 export default {
   name: 'Confirm',
-  data () {
+  data() {
     return {
       isShowConfirm: false, // 用于控制整个窗口的显示/隐藏
       title: '', // 提示框标题
@@ -30,10 +32,11 @@ export default {
       cancelText: '', // 取消按钮的文字
       confirmText: '', // 确认按钮的文字
       type: '', // 表明弹框的类型：confirm - 确认弹窗（有取消按钮）；alert - 通知弹框（没有取消按钮）
+      data: {} // 传入的数据
     }
   },
   methods: {
-    show (config) {
+    show(config) {
       // 确保用户传递的是一个对象
       if (Object.prototype.toString.call(config) === '[object Object]') {
         this.title = config.title || '操作提示'
@@ -43,18 +46,19 @@ export default {
         this.cancelText = config.cancelText || '取消'
 
         this.type = config.type || 'confirm'
+        this.data = config.data || this.data;
       }
 
       this.isShowConfirm = true
     },
-    hidden () {
+    hidden() {
       this.isShowConfirm = false
       this.titleText = '操作提示'
       this.cancelText = '取消'
       this.confirmText = '确认'
       this.type = 'confirm'
     },
-    confirm () {
+    confirm() {
       this.$emit('confirm')
       this.hidden()
     },
