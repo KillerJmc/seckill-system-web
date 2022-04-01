@@ -1,5 +1,6 @@
 import request from "@/network/request";
 import Const from "@/const/const";
+import AlertUtils from "@/util/alert";
 
 export default class Activity {
   // 获取当前秒杀活动信息接口
@@ -9,7 +10,8 @@ export default class Activity {
 
   // 申请秒杀接口
   static apply() {
-    return request.post(Const.ACTIVITY_URL + '/apply')
+    // 报错不显示警告对话框
+    return AlertUtils.disable(() => request.post(Const.ACTIVITY_URL + '/apply'))
   }
 
   // 获取倒计时接口
