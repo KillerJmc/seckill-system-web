@@ -60,5 +60,14 @@ export default {
   INVALID_SECKILL_URL: "秒杀链接错误",
 
   // 秒杀成功
-  SECKILL_SUCCESS: "秒杀成功"
+  SECKILL_SUCCESS: "秒杀成功，正在获取订单",
+
+  // 下订单失败
+  PUT_ORDER_FAILED: "下订单失败",
+
+  // 支付成功
+  PURCHASE_SUCCESS: "支付成功，已从您的默认账号中扣款！",
+
+  // 支付失败
+  PURCHASE_FAILED: "支付失败，请重新支付！"
 }

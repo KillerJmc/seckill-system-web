@@ -28,4 +28,15 @@ export default class Activity {
   static seckill(seckillUrl) {
     return request.post(Const.ACTIVITY_URL + '/seckill/' + seckillUrl)
   }
+
+  // 获取订单接口
+  static getOrder() {
+    return request.post(Const.ACTIVITY_URL + "/getOrder")
+  }
+
+  // 付款接口
+  static pay(data) {
+    const { orderId } = data
+    return request.post(Const.ACTIVITY_URL + "/pay", { orderId })
+  }
 }

@@ -50,5 +50,15 @@ export default {
   // 秒杀事件
   async seckill(context, seckillUrl) {
     return Activity.seckill(seckillUrl)
+  },
+
+  // 获取订单事件
+  async getOrder() {
+    return Activity.getOrder()
+  },
+
+  // 付款事件
+  async pay(data) {
+    return Activity.pay(data)
   }
 }
