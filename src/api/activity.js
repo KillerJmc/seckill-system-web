@@ -37,6 +37,6 @@ export default class Activity {
   // 付款接口
   static pay(data) {
     const { orderId } = data
-    return request.post(Const.ACTIVITY_URL + "/pay", { orderId })
+    return request.post(Const.ACTIVITY_URL + "/pay", "orderId=" + orderId)
   }
 }

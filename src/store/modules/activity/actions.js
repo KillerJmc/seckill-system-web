@@ -58,7 +58,7 @@ export default {
   },
 
   // 付款事件
-  async pay(data) {
+  async pay(context, data) {
     return Activity.pay(data)
   }
 }
