@@ -21,7 +21,7 @@ export default class Activity {
 
   // 获取秒杀链接接口
   static getSeckillUrl() {
-    return request.post(Const.ACTIVITY_URL + '/getSeckillUrl')
+    return AlertUtils.disable(() => request.post(Const.ACTIVITY_URL + '/getSeckillUrl'))
   }
 
   // 秒杀接口

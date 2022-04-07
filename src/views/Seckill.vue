@@ -139,18 +139,20 @@ export default {
       }
 
       // 获得倒计时秒数并初始化倒计时组件
-      this.countDown.remainSeconds = await this.$store.dispatch('activity/getCountDown').data
+      this.countDown.remainSeconds = (await this.$store.dispatch('activity/getCountDown')).data
       // 展示倒计时
       this.countDown.display = true
 
-      // 每秒获取一次秒杀链接，获取到之后使按钮亮起开启秒杀
+      // 倒计时结束后每秒获取一次秒杀链接，获取到之后使按钮亮起开启秒杀
       let self = this
       let enableSeckillButtonLoop = setInterval(async () => {
-        let res = await this.$store.dispatch('activity/getSeckillUrl')
-        if (res.code === 200) {
-          self.seckillUrl = res.data
-          console.log('获取到秒杀链接：' + self.seckillUrl)
-          clearInterval(enableSeckillButtonLoop)
+        if (this.countDown.end) {
+          let res = await this.$store.dispatch('activity/getSeckillUrl')
+          if (res.code === 200) {
+            self.seckillUrl = res.data
+            console.log('获取到秒杀链接：' + self.seckillUrl)
+            clearInterval(enableSeckillButtonLoop)
+          }
         }
       }, 1000)
     },
