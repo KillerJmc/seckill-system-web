@@ -175,8 +175,10 @@ export default {
     applyResult() {
       // 申请结果数据
       let res = this.$refs.confirmApplyResult.data;
-      // 申请成功或重复申请 就跳转到秒杀页面，否则返回主页
-      this.$router.push(res.code === 200 || res.message === MsgMapping.APPLY_REPEAT ? '/seckill' : '/')
+      // 申请成功或重复申请 就跳转到秒杀页面
+      if (res.code === 200 || res.message === MsgMapping.APPLY_REPEAT) {
+        this.$router.push('/seckill')
+      }
     }
   }
 }
