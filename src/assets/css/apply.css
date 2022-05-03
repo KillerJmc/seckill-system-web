@@ -88,6 +88,18 @@ body {
   font-family: "Microsoft Yahei", sans-serif;
 }
 
+.log-out {
+  font-size: 14px;
+  font-family: "Microsoft Yahei", sans-serif;
+  margin-left: 10px;
+  color: black;
+}
+
+.log-out:hover {
+  color: blue;
+  cursor: pointer;
+}
+
 .main-box {
   width: 420px;
   height: 418px;
@@ -151,6 +163,7 @@ body {
   line-height: 150%;
 
   color: #FFFFFF;
+  cursor: pointer;
 }
 
 .desc-box {

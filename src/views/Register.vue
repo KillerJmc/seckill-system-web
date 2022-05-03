@@ -2,16 +2,17 @@
   <div class="main">
     <div class="register-view">
       <p class="title">账户注册</p>
-      <div class="register-form">
+      <form class="register-form">
         <p class="account-text">用户姓名</p>
         <input v-model="name" type="text" class="account-bar" placeholder="请输入您的真实姓名">
         <p class="id-number-text">身份证号码</p>
         <input v-model="idNumber" type="text" class="id-number-bar" placeholder="请输入您的身份证号码">
         <p class="password-text">密码</p>
-        <input v-model="password" type="password" class="password-bar" placeholder="请设置您的密码">
+        <input v-model="password" type="password" class="password-bar" placeholder="请设置您的密码" autocomplete="off">
         <p class="password-text2">确认密码</p>
-        <input v-model="checkPassword" @keyup.enter="register" type="password" class="password-bar2" placeholder="请再次确认您的密码">
-      </div>
+        <input v-model="checkPassword" @keyup.enter="register" type="password" class="password-bar2"
+               placeholder="请再次确认您的密码" autocomplete="off">
+      </form>
       <button @click="register" class="register-button">注册</button>
       <p class="back-text">
         已有账户，<router-link to="/">直接登录</router-link>

@@ -14,4 +14,8 @@ export class Token {
     }
     return true
   }
+
+  static delete() {
+    Cookies.remove(Const.TOKEN_NAME)
+  }
 }

@@ -4,12 +4,12 @@
       <p class="subtitle">欢迎</p>
       <p class="title">账户登陆</p>
 
-      <div class="login-form">
+      <form class="login-form">
         <p class="account-text">用户账号/身份证号</p>
         <input v-model="accountIdOrIdNumber" type="text" class="account-bar">
         <p class="password-text">密码</p>
-        <input v-model="password" @keyup.enter="login" type="password" class="password-bar">
-      </div>
+        <input v-model="password" @keyup.enter="login" type="password" class="password-bar" autocomplete="on">
+      </form>
 
       <button @click="login" class="login-button">登录</button>
       <router-link to="/register" class="register-button">没有账户？注册一个</router-link>

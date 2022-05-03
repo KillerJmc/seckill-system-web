@@ -10,6 +10,7 @@
         <div class="account-info">
         </div>
         <div class="account-name">{{ customer.name }}</div>
+        <div class="log-out" @click="logOut">退出登录</div>
       </div>
     </div>
 
@@ -134,9 +135,12 @@ export default {
 
       // 如果没有申请活动就返回申请页面
       if (!this.customer.applied) {
+        console.warn('用户未申请活动！')
         await this.$router.push('/apply')
         return
       }
+
+      // end
 
       // 获得倒计时秒数并初始化倒计时组件
       this.countDown.remainSeconds = (await this.$store.dispatch('activity/getCountDown')).data
@@ -218,6 +222,12 @@ export default {
     // 倒计时结束
     countDownEnd() {
       this.countDown.end = true
+    },
+
+    // 退出登录
+    logOut() {
+      this.$store.dispatch("settings/logout")
+      this.$router.push("/")
     }
   },
   computed: {

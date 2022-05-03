@@ -7,11 +7,11 @@
       </div>
       <div class="right-block"></div>
       <div class="account-bar">
-        <div class="account-info">
-        </div>
+        <div class="account-info"></div>
         <div class="account-name">
           <span>{{ customer.name }}</span>
         </div>
+        <div class="log-out" @click="logOut">退出登录</div>
       </div>
     </div>
 
@@ -162,7 +162,7 @@ export default {
       let res = await this.$store.dispatch('activity/apply')
 
       // 显示确认申请的结果对话框
-      await this.$refs.confirmApplyResult.show({
+      this.$refs.confirmApplyResult.show({
         title: '申请结果',
         type: 'alert',
         // 内容为申请结果信息
@@ -172,13 +172,20 @@ export default {
       })
     },
 
-    applyResult() {
+    // 点击确认申请调用的方法
+    async applyResult() {
       // 申请结果数据
       let res = this.$refs.confirmApplyResult.data;
       // 申请成功或重复申请 就跳转到秒杀页面
       if (res.code === 200 || res.message === MsgMapping.APPLY_REPEAT) {
-        this.$router.push('/seckill')
+        await this.$router.push('/seckill')
       }
+    },
+
+    // 退出登录
+    logOut() {
+      this.$store.dispatch('settings/logout')
+      this.$router.push('/')
     }
   }
 }

@@ -63,7 +63,17 @@ body {
     font-family: "Microsoft Yahei", sans-serif;
 }
 
+.log-out {
+    font-size: 14px;
+    font-family: "Microsoft Yahei", sans-serif;
+    margin-left: 10px;
+    color: black;
+}
 
+.log-out:hover {
+    color: blue;
+    cursor: pointer;
+}
 
 .content {
     position: absolute;

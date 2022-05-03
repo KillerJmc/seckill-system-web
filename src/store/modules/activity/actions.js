@@ -31,8 +31,8 @@ export default {
     // 如果请求成功或者重复申请
     if (res.code === 200 || res.message === MsgMapping.APPLY_REPEAT) {
       // 更新Vuex缓存
-      console.log('apply: update cache (customer.canApply -> true)')
-      commit('customer/setCanApply', true, { root: true })
+      commit('customer/setApplied', true, { root: true })
+      console.log('apply: update cache (customer.applied -> true)')
     }
     return res
   },

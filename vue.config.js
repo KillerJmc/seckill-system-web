@@ -1,10 +1,14 @@
-module.exports = {
+const { defineConfig } = require('@vue/cli-service')
+
+module.exports = defineConfig({
+  transpileDependencies: true,
+  lintOnSave: false,
+
   // 服务器启动端口
   devServer: {
     port: 80
   },
-  // 相对路径加载资源文件
-  publicPath: './',
+
   // 配置不加入trunk的外部模块（用于CDN加速）
   configureWebpack: {
     externals: {
@@ -16,4 +20,4 @@ module.exports = {
       'js-sha256': 'sha256'
     }
   }
-}
+})
