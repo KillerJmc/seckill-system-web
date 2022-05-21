@@ -1,4 +1,5 @@
 <template>
+  <!-- UI作者：ChaconneLuo -->
   <div class="main">
     <div class="register-view">
       <p class="title">账户注册</p>
