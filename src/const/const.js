@@ -18,10 +18,12 @@ function getBaseUrl() {
   switch (process.env.NODE_ENV) {
     // npm serve
     case 'development':
+      // 本地地址
       return "http://localhost"
 
     // npm build
     case 'production':
-      return "http://192.168.137.10"
+      // 服务器地址
+      return "http://localhost"
   }
 }
