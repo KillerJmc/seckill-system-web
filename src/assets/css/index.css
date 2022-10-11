@@ -45,6 +45,13 @@ body {
   top: 25%;
 }
 
+/* 去除账号输入框加减号 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+
 .account-text {
   font-family: 'Microsoft YaHei', serif;
   font-style: normal;

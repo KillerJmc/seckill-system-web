@@ -5,9 +5,6 @@ export default {
   // 账号或密码错误
   ACCOUNT_OR_PWD_ERROR: "账号或密码错误",
 
-  // 账号必须为纯数字
-  ACCOUNT_MUST_BE_DIGITS: "账号id必须为纯数字！",
-
   // 登录成功
   LOGIN_SUCCESS: "登录成功",
 

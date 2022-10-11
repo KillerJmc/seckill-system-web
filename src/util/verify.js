@@ -1,6 +1,8 @@
 export default class Verify {
   // 检查身份证号是否合法
   static validIdNum(idNum) {
+    idNum = idNum.toString()
+
     return idNum !== null &&
       idNum !== undefined &&
       idNum.length === 18 &&

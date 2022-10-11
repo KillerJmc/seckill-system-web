@@ -1,15 +1,33 @@
 import Customer from "@/api/customer";
+import Crypt from "@/util/crypt";
+import Verify from "@/util/verify";
 
 export default {
   // 登录事件
   login(context, data) {
+    let { accountIdOrIdNumber, password } = data
+
+    // 加密密码
+    password = Crypt.hash(password)
+
     // 发送api请求
-    return Customer.login(data);
+    return Verify.validIdNum(accountIdOrIdNumber) ?
+        Customer.loginByIdNumber({
+          idNumber: accountIdOrIdNumber,
+          password
+        }) :
+        Customer.loginByAccount({
+          accountId: accountIdOrIdNumber,
+          password
+        })
   },
 
   // 注册事件
   register(context, data) {
-    // 发送api请求
+    // 加密密码
+    data.password = Crypt.hash(data.password)
+
+    // 发送注册请求
     return Customer.register(data)
   },
 

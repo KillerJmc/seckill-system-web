@@ -7,7 +7,7 @@
 
       <form class="login-form">
         <p class="account-text">用户账号/身份证号</p>
-        <input v-model="accountIdOrIdNumber" type="text" class="account-bar">
+        <input v-model="accountIdOrIdNumber" type="number" class="account-bar">
         <p class="password-text">密码</p>
         <input v-model="password" @keyup.enter="login" type="password" class="password-bar" autocomplete="on">
       </form>
@@ -18,49 +18,39 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import MsgMapping from "@/const/msg-mapping";
-import Objs from "@/util/objs";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
-export default {
-  name: 'Index',
-  data: () => {
-    return {
-      // 账号或身份证号
-      accountIdOrIdNumber: '',
-      // 密码
-      password: ''
-    }
-  },
-  methods: {
-    // 登录按钮
-    async login() {
-      const { accountIdOrIdNumber, password } = this
+const router = useRouter();
+const store = useStore();
 
-      // 检查账号和密码是否非空
-      if (Objs.nullOrEmpty(accountIdOrIdNumber, password)) {
+// 账号或身份证号
+const accountIdOrIdNumber = ref('')
+
+// 密码
+const password = ref('')
+
+// 登录按钮
+const login = async() => {
+    // 检查账号和密码是否非空
+    if (!accountIdOrIdNumber.value || !password.value) {
         alert(MsgMapping.ACCOUNT_PWD_NULL_OR_EMPTY)
         return
-      }
-
-      // 检查账号是否为纯数字
-      if (isNaN(accountIdOrIdNumber)) {
-        alert(MsgMapping.ACCOUNT_MUST_BE_DIGITS)
-        return
-      }
-
-      // 发送登录请求
-      let res = await this.$store.dispatch('customer/login', {
-        accountIdOrIdNumber,
-        password
-      })
-
-      // 如果登录成功或者重复登录就到申请界面
-      if (res.code === 200 || res.message === MsgMapping.LOGIN_REPEAT) {
-        await this.$router.push('/apply')
-      }
     }
-  }
+
+    // 发送登录请求
+    let res = await store.dispatch('customer/login', {
+        accountIdOrIdNumber: accountIdOrIdNumber.value,
+        password: password.value
+    })
+
+    // 如果登录成功或者重复登录就到申请界面
+    if (res.code === 200 || res.message === MsgMapping.LOGIN_REPEAT) {
+        await router.push('/apply')
+    }
 }
 </script>
 

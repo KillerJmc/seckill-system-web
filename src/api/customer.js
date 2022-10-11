@@ -1,37 +1,38 @@
 import request from "@/network/request";
-import Crypt from "@/util/crypt";
-import Verify from "@/util/verify";
 import Const from "@/const/const"
 
 export default class Customer {
-  // 登录接口
-  static async login(data) {
-    const { accountIdOrIdNumber, password } = data
-
-    // 加密密码
-    let hashedPassword = Crypt.hash(password)
-
-    // 创建登录表单
-    let loginForm = Verify.validIdNum(accountIdOrIdNumber) ?
-      { idNumber: accountIdOrIdNumber, password: hashedPassword } :
-      { accountId: accountIdOrIdNumber, password: hashedPassword }
+  // 账号登录接口
+  static async loginByAccount(data) {
+    const { accountId, password } = data
 
     // 发送登录请求
-    return await request.post(Const.ACCOUNT_URL + '/login', loginForm)
+    return await request.post(Const.ACCOUNT_URL + '/login', {
+      accountId,
+      password
+    })
+  }
+
+  // 身份证登录接口
+  static async loginByIdNumber(data) {
+    const { idNumber, password } = data
+
+    // 发送登录请求
+    return await request.post(Const.ACCOUNT_URL + '/login', {
+      idNumber,
+      password
+    })
   }
 
   // 注册接口
   static async register(data) {
     const { name, idNumber, password } = data
 
-    // 加密密码
-    let hashedPassword = Crypt.hash(password)
-
     // 发送注册请求
     return await request.post(Const.ACCOUNT_URL + '/register', {
       name,
       idNumber,
-      password: hashedPassword
+      password
     })
   }
 
