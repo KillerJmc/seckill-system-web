@@ -1,18 +1,24 @@
+<!-- 这个组件基于网上的魔改而来 -->
 <template>
+  <!-- 动画标签 -->
   <transition name="confirm-fade">
-    <div v-if="isShowConfirm" class="my-confirm">
+    <!-- 对话框主体 -->
+    <div v-if="show" class="my-confirm">
       <div class="confirm-content-wrap">
+        <!-- 标题 -->
         <h3 class="my-confirm-title">{{ title }}</h3>
+        <!-- 内容 -->
         <p class="my-confirm-content">
-          <slot name="content">
-            {{ this.content }}
-          </slot>
+          <slot name="content">{{ content }}</slot>
         </p>
+        <!-- 按钮 -->
         <div class="my-operation">
+          <!-- 确认按钮 -->
           <div class="confirm-btn" @click="confirm">
             <p class="my-btn-text">{{ confirmText }}</p>
           </div>
-          <div v-if="type==='confirm'" class="my-cancel-btn" @click="cancel">
+          <!-- 取消按钮（只有在类型为confirm才会出现） -->
+          <div v-if="type==='confirm'" class="my-cancel-btn" @click="hidden">
             <p class="my-btn-text my-border-right">{{ cancelText }}</p>
           </div>
         </div>
@@ -21,52 +27,36 @@
   </transition>
 </template>
 
-<script>
-export default {
-  name: 'Confirm',
-  data() {
-    return {
-      isShowConfirm: false, // 用于控制整个窗口的显示/隐藏
-      title: '', // 提示框标题
-      content: '', // 提示框的内容
-      cancelText: '', // 取消按钮的文字
-      confirmText: '', // 确认按钮的文字
-      type: '', // 表明弹框的类型：confirm - 确认弹窗（有取消按钮）；alert - 通知弹框（没有取消按钮）
-      data: {} // 传入的数据
-    }
-  },
-  methods: {
-    show(config) {
-      // 确保用户传递的是一个对象
-      if (Object.prototype.toString.call(config) === '[object Object]') {
-        this.title = config.title || '操作提示'
-        this.content = config.content || this.content || '确认吗？'
+<script setup>
+defineProps({
+    // 表明弹框的类型：
+    // confirm - 确认弹窗（有取消按钮）
+    // alert - 通知弹框（没有取消按钮）
+    type: { type: String, default: 'confirm' },
+    // 对话框标题
+    title: { type: String, default: '操作提示' },
+    // 对话框内容
+    content: { type: String, default: '确定吗？'},
+    // 取消按钮的文字
+    cancelText: { type: String, default: '取消' },
+    // 确认按钮的文字
+    confirmText: { type: String, default: '确认' },
+    // 是否显示对话框
+    show: { type: Boolean, default: false }
+})
 
-        this.confirmText = config.confirmText || '确认'
-        this.cancelText = config.cancelText || '取消'
+const emit = defineEmits(["confirm", "update:show"])
 
-        this.type = config.type || 'confirm'
-        this.data = config.data || this.data;
-      }
+// 确认按钮
+const confirm = () => {
+    // 回调父组件的确定钩子
+    emit("confirm")
+    hidden()
+}
 
-      this.isShowConfirm = true
-    },
-    hidden() {
-      this.isShowConfirm = false
-      this.titleText = '操作提示'
-      this.cancelText = '取消'
-      this.confirmText = '确认'
-      this.type = 'confirm'
-    },
-    confirm() {
-      this.$emit('confirm')
-      this.hidden()
-    },
-    cancel() {
-      this.$emit('cancel')
-      this.hidden()
-    }
-  }
+// 隐藏对话框
+const hidden = () => {
+    emit("update:show", false)
 }
 </script>
 

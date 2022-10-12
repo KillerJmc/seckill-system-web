@@ -20,7 +20,7 @@
       <div class="main-box">
         <p class="seckill-title">{{ activity.product.name }}</p>
         <p class="seckill-time">秒杀开始时间：{{ activity.startTime }}</p>
-        <button class="button" @click="applyButton">申请购买</button>
+        <button class="button" @click="applyDialogShow = true">申请购买</button>
       </div>
 
       <div class="desc-box">
@@ -42,7 +42,7 @@
     </div>
 
     <!-- 确定申请对话框 -->
-    <confirm ref="confirmApply" @confirm="apply">
+    <Confirm title="申请须知" confirmText="确定申请" v-model:show="applyDialogShow" @confirm="apply">
       <template v-slot:content>
         <div style="text-align: left; padding-left: 70px">
           <p>申请人必须满足以下条件</p>
@@ -55,140 +55,106 @@
           <p>三年内最多逾期金额：{{ activity.rule.maxOverdueMoney }}元</p>
         </div>
       </template>
-    </confirm>
+    </Confirm>
 
-    <!-- 确定申请的结果 -->
-    <confirm ref="confirmApplyResult" @confirm="applyResult"/>
+    <!-- 申请结果对话框 -->
+    <Confirm title="申请结果"
+             type="alert"
+             :content="applyResultDialogContent"
+             v-model:show="applyResultDialogShow"
+             @confirm="goToSeckill" />
   </div>
 </template>
 
-<script>
+<script setup>
 import MsgMapping from "@/const/msg-mapping";
-import { Token } from "@/auth/token";
 import Confirm from "@/components/Confirm"
+import { Token } from "@/auth/token";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
-export default {
-  name: 'Apply',
-  components: {
-    // 确认框组件
-    Confirm
-  },
-  data: () => {
-    return {
-      // 客户信息
-      customer: {
-        // 客户姓名
-        name: '',
-        // 是否可以申请活动
-        canApply: false,
-      },
-      // 活动
-      activity: {
-        // 开始时间
-        startTime: '',
-        // 商品信息
-        product: {
-          // 商品名称
-          name: '',
-          // 商品介绍
-          info: ''
-        },
-        // 活动信息
-        activityInfo: '',
-        // 活动规则
-        rule: {
-          "workStatus": true,
-          "inCreditBlacklist": false,
-          "minAge": 0,
-          "maxAge": 0,
-          "maxOverdueTimes": 0,
-          "maxOverdueDays": 0,
-          "maxOverdueMoney": 0,
-        }
-      }
+const router = useRouter()
+const store = useStore()
+
+// 确认申请对话框是否显示
+const applyDialogShow = ref(false)
+
+// 确认申请结果对话框是否显示
+const applyResultDialogShow = ref(false)
+// 确认申请结果对话框内容
+const applyResultDialogContent = ref('')
+
+// 申请结果
+let applyResult = {}
+
+// 客户信息
+const customer = ref({})
+
+// 活动信息
+const activity = ref({
+    // 商品信息
+    product: {},
+    // 活动规则
+    rule: {}
+})
+
+onMounted(async() => {
+    // 没有token就回到登录界面
+    if (!Token.verify()) {
+        await router.push('/');
     }
-  },
-  async mounted() {
-    await this.init()
-  },
-  methods: {
-    // 初始化页面函数
-    async init() {
-      // 没有token就回到登录界面
-      if (!Token.verify()) {
-        await this.$router.push('/');
-      }
 
-      // 获取客户信息
-      let customerInfo = await this.$store.dispatch('customer/getInfo')
+    // 获取客户信息
+    let customerInfo = await store.dispatch('customer/getInfo')
 
-      // 请求当前秒杀活动信息
-      let activityInfo = await this.$store.dispatch('activity/getCurrent')
+    // 请求当前秒杀活动信息
+    let activityInfo = await store.dispatch('activity/getCurrent')
 
-      // 请求失败就返回登录界面
-      if (customerInfo.code === 500 || activityInfo.code === 500) {
-        await this.$router.push('/');
-      }
+    // 请求失败就返回登录界面
+    if (customerInfo.code === 500 || activityInfo.code === 500) {
+        await router.push('/');
+    }
 
-      // 填充客户信息
-      this.customer = customerInfo.data
+    // 填充客户信息
+    customer.value = customerInfo.data
 
-      // 填充秒杀活动信息
-      this.activity = activityInfo.data
-    },
+    // 填充秒杀活动信息
+    activity.value = activityInfo.data
+});
 
-    // 申请按钮
-    applyButton() {
-      // 显示确认对话框
-      this.$refs.confirmApply.show({
-        title: '申请须知',
-        confirmText: '确定申请'
-      })
-    },
-
-    // 申请
-    async apply() {
-      // 如果不符合条件就显示失败信息
-      if (!this.customer.canApply) {
-        this.$refs.confirmApplyResult.show({
-          title: '申请结果',
-          type: 'alert',
-          // 内容为申请失败
-          content: MsgMapping.APPLY_FAILED
-        })
+// 确认申请按钮
+const apply = async () => {
+    // 如果不符合条件就显示失败申请结果
+    if (!customer.value.canApply) {
+        // 对话框内容为申请失败
+        applyResultDialogContent.value = MsgMapping.APPLY_FAILED
+        // 显示申请结果对话框
+        applyResultDialogShow.value = true
         return
-      }
-
-      // 发送申请请求
-      let res = await this.$store.dispatch('activity/apply')
-
-      // 显示确认申请的结果对话框
-      this.$refs.confirmApplyResult.show({
-        title: '申请结果',
-        type: 'alert',
-        // 内容为申请结果信息
-        content: res.message,
-        // 传入数据为申请结果
-        data: res
-      })
-    },
-
-    // 点击确认申请调用的方法
-    async applyResult() {
-      // 申请结果数据
-      let res = this.$refs.confirmApplyResult.data;
-      // 申请成功或重复申请 就跳转到秒杀页面
-      if (res.code === 200 || res.message === MsgMapping.APPLY_REPEAT) {
-        await this.$router.push('/seckill')
-      }
-    },
-
-    // 退出登录
-    logOut() {
-      this.$store.dispatch('settings/logout')
-      this.$router.push('/')
     }
-  }
+
+    // 获取申请结果
+    applyResult = await store.dispatch('activity/apply')
+
+    // 对话框内容为申请结果
+    applyResultDialogContent.value = applyResult.message
+    // 显示申请结果对话框
+    applyResultDialogShow.value = true
+}
+
+// 前往秒杀页面
+const goToSeckill = async() => {
+    // 申请成功或重复申请 就跳转到秒杀页面
+    if (applyResult.code === 200 || applyResult.message === MsgMapping.APPLY_REPEAT) {
+        await router.push('/seckill')
+    }
+}
+
+// 退出登录
+const logOut = () => {
+    store.dispatch('settings/logout')
+    router.push('/')
 }
 </script>
 
