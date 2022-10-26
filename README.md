@@ -6,11 +6,7 @@
 Seckill system web page.
 
 ## Technology Stack
-Vue
-
-## App
-1. Seckill Web System
-2. Seckill Web Management
+Vite, Vue.ts, Vue-Router, Pinia, CDN
 
 ## Usage
 See also [seckill-system](https://github.com/KillerJmc/seckill-system)

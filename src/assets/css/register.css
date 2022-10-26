@@ -1,4 +1,4 @@
-@import 'style.css';
+@import "style.css";
 
 html {
   height: 100%;
@@ -14,12 +14,12 @@ body {
   height: 768px;
   max-width: 110%;
   max-height: 110%;
-  background: url(../img/home_bg.png) no-repeat left center;
+  background: url(../img/home_bg.jpg) no-repeat left center;
   background-size: 130%;
 }
 
 .title {
-  font-family: 'Microsoft YaHei', serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   font-weight: bold;
   font-size: 30px;
@@ -37,7 +37,7 @@ body {
 }
 
 .account-text {
-  font-family: 'Microsoft YaHei', serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   line-height: 42px;
 
@@ -54,7 +54,7 @@ body {
 }
 
 .id-number-text {
-  font-family: 'Microsoft YaHei', serif;
+  font-family: "Microsoft YaHei", serif;
   font-size: 16px;
   line-height: 42px;
 
@@ -71,7 +71,7 @@ body {
 }
 
 .password-text {
-  font-family: 'Microsoft YaHei', serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   font-size: 16px;
   line-height: 42px;
@@ -89,7 +89,7 @@ body {
 }
 
 .password-text2 {
-  font-family: 'Microsoft YaHei', serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   font-size: 16px;
   line-height: 42px;
@@ -113,7 +113,7 @@ body {
   border-radius: 10px;
   border: 0 double #04C45C;
 
-  font-family: 'Microsoft YaHei', serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
@@ -129,7 +129,7 @@ body {
 }
 
 .back-text {
-  font-family: 'Microsoft YaHei', serif;
+  font-family: "Microsoft YaHei", serif;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;

@@ -1,30 +1,33 @@
 {
   "name": "seckill-system-web",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "run-s type-check dev-only",
+    "build": "run-s type-check build-only",
+    "dev-only": "vite",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "core-js": "^3.8.3",
-    "vue": "^3.2.13",
-    "vue-router": "^4.0.3",
-    "vuex": "^4.0.0",
-    "axios": "^0.26.1",
+    "axios": "^1.1.2",
     "js-cookie": "^3.0.1",
-    "js-sha256": "^0.9.0"
+    "js-sha256": "^0.9.0",
+    "pinia": "^2.0.23",
+    "vue": "^3.2.41",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/eslint-parser": "^7.12.16",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-router": "~5.0.0",
-    "@vue/cli-plugin-vuex": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@types/js-cookie": "^3.0.1",
+    "@types/node": "^16.11.56",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "@vue/eslint-config-typescript": "^11.0.0",
+    "@vue/tsconfig": "^0.1.3",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "~4.7.4",
+    "vite": "^3.0.9",
+    "vue-tsc": "^0.40.7"
   }
 }
