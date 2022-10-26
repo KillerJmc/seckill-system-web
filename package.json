@@ -1,6 +1,6 @@
 {
   "name": "seckill-system-web",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "scripts": {
     "dev": "run-s type-check dev-only",
     "build": "run-s type-check build-only",
