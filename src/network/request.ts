@@ -16,16 +16,20 @@ export type PromiseR<T> = Promise<R<T>>
 // 默认配置
 const instance = axios.create({
     timeout: 10000,
-    withCredentials: true
+    withCredentials: true,
+    baseURL: import.meta.env.VITE_BACKEND_BASE_URL
 })
 
 // 请求拦截器
 instance.interceptors.request.use(config => {
-    // 打印发送的url
-    console.log("request " + JSON.stringify({
-        url: config.url,
-        data: config.data
-    }, null, 4))
+    // 如果是开发环境就打印发送的url
+    if (import.meta.env.DEV) {
+        console.log("request " + JSON.stringify({
+            url: config.url,
+            data: config.data
+        }, null, 4))
+    }
+
     return config
 })
 
@@ -34,8 +38,10 @@ instance.interceptors.response.use(config => {
     // 获取返回值
     const res = config.data
 
-    // 打印返回值内容
-    console.log("response " + JSON.stringify(res, null, 4))
+    // 如果是开发环境就打印返回值内容
+    if (import.meta.env.DEV) {
+        console.log("response " + JSON.stringify(res, null, 4))
+    }
 
     // 检查返回值类型
     if (!("code" in res && "data" in res && "message" in res)) {

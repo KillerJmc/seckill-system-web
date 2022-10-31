@@ -188,15 +188,14 @@ const payOrderButton = async () => {
     // 发送支付请求
     let paymentStatusData = await activityStore.pay(order.value.orderId)
 
-    // 如果支付失败就返回
+    // 判断支付失败
     if (paymentStatusData.code === 500) {
+        await alert(paymentStatusData.message)
         return
     }
 
-    // 判断是否支付成功
-    const { paymentSuccess } = paymentStatusData.data
-    // 显示支付结果
-    await alert(paymentSuccess ? MsgMapping.PURCHASE_SUCCESS : MsgMapping.PURCHASE_FAILED)
+    // 支付成功
+    await alert(MsgMapping.PURCHASE_SUCCESS)
 }
 
 // 倒计时结束
