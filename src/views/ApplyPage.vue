@@ -140,7 +140,7 @@ const apply = async () => {
     applyResult = await activityStore.apply()
 
     // 对话框内容为申请结果
-    applyResultDialogContent.value = applyResult.code === 200 ? MsgMapping.APPLY_SUCCESS : MsgMapping.APPLY_FAILED
+    applyResultDialogContent.value = applyResult.code === 200 ? MsgMapping.APPLY_SUCCESS : applyResult.message!
     // 显示申请结果对话框
     applyResultDialogShow.value = true
 }
