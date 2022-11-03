@@ -56,27 +56,27 @@ export const useActivityStore = defineStore("activity", {
         },
 
         // 获得活动倒计时事件
-        async getCountDown(): PromiseR<number> {
+        getCountDown(): PromiseR<number> {
             return Activity.getCountDown()
         },
 
         // 获取秒杀链接事件
-        async getSeckillUrl(): PromiseR<string> {
+        getSeckillUrl(): PromiseR<string> {
             return Activity.getSeckillUrl()
         },
 
         // 秒杀事件
-        async seckill(seckillUrl: string): PromiseR<void> {
+        seckill(seckillUrl: string): PromiseR<void> {
             return Activity.seckill(seckillUrl)
         },
 
         // 获取订单事件
-        async getOrder(): PromiseR<Order> {
+        getOrder(): PromiseR<Order> {
             return Activity.getOrder()
         },
 
         // 付款事件
-        async pay(orderId: string): PromiseR<PaymentStatus> {
+        pay(orderId: string): PromiseR<PaymentStatus> {
             return Activity.pay(orderId)
         }
     }

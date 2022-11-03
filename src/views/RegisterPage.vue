@@ -63,7 +63,7 @@ const registerButton = async () => {
 
     // 如果注册成功就显示给用户注册账号信息并跳转登录界面
     if (res.code !== 500) {
-        await alert("注册成功，您的账号为：" + res.data.accountId + "，正在为您跳转到登录界面...")
+        await alert("注册成功，您的账号为：" + res.data.account + "，正在为您跳转到登录界面...")
         await router.push("/")
     }
 }

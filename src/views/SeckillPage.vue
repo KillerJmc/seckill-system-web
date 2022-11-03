@@ -47,7 +47,6 @@
 <script lang="ts" setup>
 import MsgMapping from "@/const/msg-mapping"
 import CountDown from "@/components/CountDown.vue"
-import { Token } from "@/auth/token"
 import { computed, onBeforeMount, ref } from "vue"
 import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
@@ -91,8 +90,8 @@ const enableSeckillButton = computed(() => {
 })
 
 onBeforeMount(async () => {
-    // 如果没有token就跳转登录
-    if (!Token.verify()) {
+    // 没有登录就返回主页
+    if (!settingsStore.verifyLogin()) {
         await router.push("/")
     }
 

@@ -50,6 +50,11 @@ export const useCustomerStore = defineStore("customer", {
             return Customer.register(registerForm)
         },
 
+        // 退出登录事件
+        logout(): PromiseR<void> {
+            return Customer.logout()
+        },
+
         // 获取客户信息事件
         async getInfo(): PromiseR<CustomerInfo> {
             // 如果Vuex有数据就直接返回

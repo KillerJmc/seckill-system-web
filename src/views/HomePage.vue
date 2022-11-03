@@ -23,15 +23,22 @@ import MsgMapping from "@/const/msg-mapping"
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
+import { useSettingsStore } from "@/stores/settings"
 
 const router = useRouter()
 const customerStore = useCustomerStore()
+const settingsStore = useSettingsStore()
 
 // 账号或身份证号
 const accountIdOrIdNumber = ref<number>()
 
 // 密码
 const password = ref("")
+
+// 已登录就跳转申请页
+if (settingsStore.verifyLogin()) {
+    await router.push("/")
+}
 
 // 登录按钮
 const login = async() => {

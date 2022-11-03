@@ -69,7 +69,6 @@
 <script lang="ts" setup>
 import MsgMapping from "@/const/msg-mapping"
 import ConfirmDialog from "@/components/ConfirmDialog.vue"
-import { Token } from "@/auth/token"
 import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
 import { useActivityStore } from "@/stores/activity"
@@ -102,8 +101,8 @@ const customer = ref({} as CustomerInfo)
 const activity = ref({ product: {}, rule: {} } as ActivityInfo)
 
 onBeforeMount(async() => {
-    // 没有token就回到登录界面
-    if (!Token.verify()) {
+    // 没有登录就返回主页
+    if (!settingsStore.verifyLogin()) {
         await router.push("/")
     }
 

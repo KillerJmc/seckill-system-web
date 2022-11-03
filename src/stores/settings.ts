@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 import { Token } from "@/auth/token"
 import { useActivityStore } from "@/stores/activity"
 import { useCustomerStore } from "@/stores/customer"
+import MsgMapping from "@/const/msg-mapping"
 
 const activityStore = useActivityStore()
 const customerStore = useCustomerStore()
@@ -9,10 +10,26 @@ const customerStore = useCustomerStore()
 export const useSettingsStore = defineStore("settings", {
     actions: {
         // 退出登录
-        logout() {
+        async logout() {
+            // 调用退出登录接口
+            await customerStore.logout()
+
+            // 清除token
+            Token.delete()
+
+            // 清除stores
             activityStore.clearAll()
             customerStore.clearAll()
-            Token.delete()
+        },
+
+        // 验证是否登录
+        verifyLogin(): boolean {
+            // 没有token并且store不含有客户名就是未登录状态
+            if (customerStore.name === "" && !Token.get()) {
+                alert(MsgMapping.NOT_LOGGED_ON)
+                return false
+            }
+            return true
         }
     }
 })
