@@ -27,9 +27,19 @@ import MsgMapping from "@/const/msg-mapping"
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
+import { useSettingsStore } from "@/stores/settings"
+import { onBeforeMount } from "vue"
 
 const router = useRouter()
 const customerStore = useCustomerStore()
+const settingsStore = useSettingsStore()
+
+onBeforeMount(async () => {
+    // 已登录就跳转申请页
+    if (settingsStore.verifyLogin()) {
+        await router.push("/apply")
+    }
+})
 
 // 姓名
 const name = ref("")
@@ -63,7 +73,7 @@ const registerButton = async () => {
 
     // 如果注册成功就显示给用户注册账号信息并跳转登录界面
     if (res.code !== 500) {
-        await alert("注册成功，您的账号为：" + res.data.accountId + "，正在为您跳转到登录界面...")
+        await alert("注册成功，您的账号为：" + res.data.account + "，正在为您跳转到登录界面...")
         await router.push("/")
     }
 }

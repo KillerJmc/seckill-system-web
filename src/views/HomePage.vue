@@ -7,7 +7,7 @@
 
       <form class="login-form">
         <p class="account-text">用户账号/身份证号</p>
-        <input v-model="accountIdOrIdNumber" type="number" class="account-bar">
+        <input v-model="accountOrIdNumber" type="number" class="account-bar">
         <p class="password-text">密码</p>
         <input v-model="password" @keyup.enter="login" type="password" class="password-bar" autocomplete="on">
       </form>
@@ -23,12 +23,22 @@ import MsgMapping from "@/const/msg-mapping"
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
+import { useSettingsStore } from "@/stores/settings"
+import { onBeforeMount } from "vue"
 
 const router = useRouter()
 const customerStore = useCustomerStore()
+const settingsStore = useSettingsStore()
+
+onBeforeMount(async () => {
+    // 已登录就跳转申请页
+    if (settingsStore.verifyLogin()) {
+        await router.push("/apply")
+    }
+})
 
 // 账号或身份证号
-const accountIdOrIdNumber = ref<number>()
+const accountOrIdNumber = ref<number>()
 
 // 密码
 const password = ref("")
@@ -36,14 +46,14 @@ const password = ref("")
 // 登录按钮
 const login = async() => {
     // 检查账号和密码是否非空
-    if (!accountIdOrIdNumber.value || !password.value) {
+    if (!accountOrIdNumber.value || !password.value) {
         alert(MsgMapping.ACCOUNT_PWD_NULL_OR_EMPTY)
         return
     }
 
     // 发送登录请求
     let res = await customerStore.login({
-        accountIdOrIdNumber: accountIdOrIdNumber.value.toString(),
+        accountOrIdNumber: accountOrIdNumber.value.toString(),
         password: password.value
     })
 

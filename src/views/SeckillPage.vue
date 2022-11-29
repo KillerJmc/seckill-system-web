@@ -47,7 +47,6 @@
 <script lang="ts" setup>
 import MsgMapping from "@/const/msg-mapping"
 import CountDown from "@/components/CountDown.vue"
-import { Token } from "@/auth/token"
 import { computed, onBeforeMount, ref } from "vue"
 import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
@@ -62,37 +61,10 @@ const customerStore = useCustomerStore()
 const activityStore = useActivityStore()
 const settingsStore = useSettingsStore()
 
-// 客户信息
-const customer = ref({} as CustomerInfo)
-
-// 活动信息
-const activity = ref({ product: {}, rule: {} } as ActivityInfo)
-
-// 秒杀链接
-const seckillUrl = ref("")
-
-// 是否前往订单页面
-const gotoOrderPage = ref(false)
-
-// 订单信息
-const order = ref({} as Order)
-
-// 秒杀倒计时
-const countDown = reactive({
-    remainSeconds: 0,
-    display: false,
-    end: true
-})
-
-// 是否开启秒杀按钮
-const enableSeckillButton = computed(() => {
-    // 开启秒杀按钮的条件是客户已经得到秒杀id且倒计时结束
-    return seckillUrl.value !== "" && countDown.end
-})
-
 onBeforeMount(async () => {
-    // 如果没有token就跳转登录
-    if (!Token.verify()) {
+    // 没有登录就返回主页
+    if (!settingsStore.verifyLogin()) {
+        alert(MsgMapping.NOT_LOGGED_ON)
         await router.push("/")
     }
 
@@ -136,6 +108,34 @@ onBeforeMount(async () => {
             }
         }
     }, 1000)
+})
+
+// 客户信息
+const customer = ref({} as CustomerInfo)
+
+// 活动信息
+const activity = ref({ product: {}, rule: {} } as ActivityInfo)
+
+// 秒杀链接
+const seckillUrl = ref("")
+
+// 是否前往订单页面
+const gotoOrderPage = ref(false)
+
+// 订单信息
+const order = ref({} as Order)
+
+// 秒杀倒计时
+const countDown = reactive({
+    remainSeconds: 0,
+    display: false,
+    end: true
+})
+
+// 是否开启秒杀按钮
+const enableSeckillButton = computed(() => {
+    // 开启秒杀按钮的条件是客户已经得到秒杀id且倒计时结束
+    return seckillUrl.value !== "" && countDown.end
 })
 
 const seckillButton = async () => {
@@ -188,15 +188,14 @@ const payOrderButton = async () => {
     // 发送支付请求
     let paymentStatusData = await activityStore.pay(order.value.orderId)
 
-    // 如果支付失败就返回
+    // 判断支付失败
     if (paymentStatusData.code === 500) {
+        await alert(paymentStatusData.message)
         return
     }
 
-    // 判断是否支付成功
-    const { paymentSuccess } = paymentStatusData.data
-    // 显示支付结果
-    await alert(paymentSuccess ? MsgMapping.PURCHASE_SUCCESS : MsgMapping.PURCHASE_FAILED)
+    // 支付成功
+    await alert(MsgMapping.PURCHASE_SUCCESS)
 }
 
 // 倒计时结束
@@ -205,9 +204,9 @@ const countDownEnd = () => {
 }
 
 // 退出登录
-const logOut = () => {
-    settingsStore.logout()
-    router.push("/")
+const logOut = async () => {
+    await settingsStore.logout()
+    await router.push("/")
 }
 </script>
 

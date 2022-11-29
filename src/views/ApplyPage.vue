@@ -69,7 +69,6 @@
 <script lang="ts" setup>
 import MsgMapping from "@/const/msg-mapping"
 import ConfirmDialog from "@/components/ConfirmDialog.vue"
-import { Token } from "@/auth/token"
 import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
 import { useActivityStore } from "@/stores/activity"
@@ -84,26 +83,10 @@ const customerStore = useCustomerStore()
 const activityStore = useActivityStore()
 const settingsStore = useSettingsStore()
 
-// 确认申请对话框是否显示
-const applyDialogShow = ref(false)
-
-// 确认申请结果对话框是否显示
-const applyResultDialogShow = ref(false)
-// 确认申请结果对话框内容
-const applyResultDialogContent = ref("")
-
-// 申请结果
-let applyResult = {} as R<void>
-
-// 客户信息
-const customer = ref({} as CustomerInfo)
-
-// 活动信息
-const activity = ref({ product: {}, rule: {} } as ActivityInfo)
-
 onBeforeMount(async() => {
-    // 没有token就回到登录界面
-    if (!Token.verify()) {
+    // 没有登录就返回主页
+    if (!settingsStore.verifyLogin()) {
+        alert(MsgMapping.NOT_LOGGED_ON)
         await router.push("/")
     }
 
@@ -125,6 +108,23 @@ onBeforeMount(async() => {
     activity.value = activityInfo.data
 })
 
+// 确认申请对话框是否显示
+const applyDialogShow = ref(false)
+
+// 确认申请结果对话框是否显示
+const applyResultDialogShow = ref(false)
+// 确认申请结果对话框内容
+const applyResultDialogContent = ref("")
+
+// 申请结果
+let applyResult = {} as R<void>
+
+// 客户信息
+const customer = ref({} as CustomerInfo)
+
+// 活动信息
+const activity = ref({ product: {}, rule: {} } as ActivityInfo)
+
 // 确认申请按钮
 const apply = async () => {
     // 如果不符合条件就显示失败申请结果
@@ -140,7 +140,7 @@ const apply = async () => {
     applyResult = await activityStore.apply()
 
     // 对话框内容为申请结果
-    applyResultDialogContent.value = applyResult.message!
+    applyResultDialogContent.value = applyResult.code === 200 ? MsgMapping.APPLY_SUCCESS : applyResult.message!
     // 显示申请结果对话框
     applyResultDialogShow.value = true
 }
@@ -154,9 +154,9 @@ const goToSeckill = async() => {
 }
 
 // 退出登录
-const logOut = () => {
-    settingsStore.logout()
-    router.push("/")
+const logOut = async () => {
+    await settingsStore.logout()
+    await router.push("/")
 }
 </script>
 

@@ -1,21 +1,12 @@
 import Cookies from "js-cookie"
 import Const from "@/const/const"
-import MsgMapping from "@/const/msg-mapping"
 
 export class Token {
-    static get() {
+    static get(): string | undefined {
         return Cookies.get(Const.TOKEN_NAME)
     }
 
-    static verify() {
-        if (this.get() === undefined) {
-            alert(MsgMapping.NOT_LOGGED_ON)
-            return false
-        }
-        return true
-    }
-
-    static delete() {
+    static delete(): void {
         Cookies.remove(Const.TOKEN_NAME)
     }
 }

@@ -1,41 +1,40 @@
 import request from "@/network/request"
 import type { PromiseR } from "@/network/request"
-import Const from "@/const/const"
 
 export default class Activity {
     // 获取当前秒杀活动信息接口
     static getCurrent(): PromiseR<ActivityInfo> {
-        return request.post(Const.ACTIVITY_URL + "/getCurrent")
+        return request.get("/seckillActivity/getCurrent")
     }
 
     // 申请秒杀接口
     static apply(): PromiseR<void> {
-        return request.post(Const.ACTIVITY_URL + "/apply")
+        return request.post("/seckillActivity/apply")
     }
 
     // 获取倒计时接口
     static getCountDown(): PromiseR<number> {
-        return request.post(Const.ACTIVITY_URL + "/getCountDown")
+        return request.get("/seckillActivity/getCountDown")
     }
 
     // 获取秒杀链接接口
     static getSeckillUrl(): PromiseR<string> {
-        return request.post(Const.ACTIVITY_URL + "/getSeckillUrl")
+        return request.get("/seckillActivity/getSeckillUrl")
     }
 
     // 秒杀接口
     static seckill(seckillUrl: string): PromiseR<void> {
-        return request.post(Const.ACTIVITY_URL + "/seckill/" + seckillUrl)
+        return request.post("/seckillActivity/seckill/" + seckillUrl)
     }
 
     // 获取订单接口
     static getOrder(): PromiseR<Order> {
-        return request.post(Const.ACTIVITY_URL + "/getOrder")
+        return request.get("/seckillActivity/getOrder")
     }
 
     // 付款接口
     static pay(orderId: string): PromiseR<PaymentStatus> {
-        return request.post(Const.ACTIVITY_URL + "/pay", "orderId=" + orderId)
+        return request.post("/seckillActivity/pay", "orderId=" + orderId)
     }
 }
 

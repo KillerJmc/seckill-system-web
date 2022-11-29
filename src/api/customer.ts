@@ -1,42 +1,46 @@
-import Const from "@/const/const"
 import request from "@/network/request"
 import type { PromiseR } from "@/network/request"
 
 export default class Customer {
     // 账号登录接口
-    static async loginByAccount(loginForm: LoginForm): PromiseR<void> {
+    static loginByAccount(loginForm: LoginForm): PromiseR<void> {
         // 发送登录请求
-        return await request.post(Const.ACCOUNT_URL + "/login", {
-            accountId: loginForm.accountId,
+        return request.post("/customer/login", {
+            account: loginForm.account,
             password: loginForm.password
         })
     }
 
     // 身份证登录接口
-    static async loginByIdNumber(loginForm: LoginForm): PromiseR<void> {
+    static loginByIdNumber(loginForm: LoginForm): PromiseR<void> {
         // 发送登录请求
-        return await request.post(Const.ACCOUNT_URL + "/login", {
+        return request.post("/customer/login", {
             idNumber: loginForm.idNumber,
             password: loginForm.password
         })
     }
 
     // 注册接口
-    static async register(registerForm: RegisterForm): PromiseR<RegisterResult> {
+    static register(registerForm: RegisterForm): PromiseR<RegisterResult> {
         // 发送注册请求
-        return await request.post(Const.ACCOUNT_URL + "/register", registerForm)
+        return request.post("/customer/register", registerForm)
+    }
+
+    // 退出登录接口
+    static logout(): PromiseR<void> {
+        return request.post("/customer/logout")
     }
 
     // 获取客户信息接口
-    static async getInfo(): PromiseR<CustomerInfo> {
-        return await request.post(Const.ACCOUNT_URL + "/getInfo")
+    static getInfo(): PromiseR<CustomerInfo> {
+        return request.get("/customer/getInfo")
     }
 }
 
 // 登录表单
 export interface LoginForm {
-    accountIdOrIdNumber?: string,
-    accountId?: string,
+    accountOrIdNumber?: string,
+    account?: string,
     idNumber?: string,
     password: string
 }
@@ -50,7 +54,7 @@ export interface RegisterForm {
 
 // 注册结果
 export interface RegisterResult {
-    accountId: string
+    account: string
 }
 
 // 客户信息
