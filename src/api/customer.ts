@@ -6,7 +6,7 @@ export default class Customer {
     static loginByAccount(loginForm: LoginForm): PromiseR<void> {
         // 发送登录请求
         return request.post("/customer/login", {
-            accountId: loginForm.accountId,
+            account: loginForm.account,
             password: loginForm.password
         })
     }
@@ -33,14 +33,14 @@ export default class Customer {
 
     // 获取客户信息接口
     static getInfo(): PromiseR<CustomerInfo> {
-        return request.post("/customer/getInfo")
+        return request.get("/customer/getInfo")
     }
 }
 
 // 登录表单
 export interface LoginForm {
-    accountIdOrIdNumber?: string,
-    accountId?: string,
+    accountOrIdNumber?: string,
+    account?: string,
     idNumber?: string,
     password: string
 }

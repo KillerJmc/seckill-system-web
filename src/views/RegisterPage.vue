@@ -27,9 +27,19 @@ import MsgMapping from "@/const/msg-mapping"
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
+import { useSettingsStore } from "@/stores/settings"
+import { onBeforeMount } from "vue"
 
 const router = useRouter()
 const customerStore = useCustomerStore()
+const settingsStore = useSettingsStore()
+
+onBeforeMount(async () => {
+    // 已登录就跳转申请页
+    if (settingsStore.verifyLogin()) {
+        await router.push("/apply")
+    }
+})
 
 // 姓名
 const name = ref("")

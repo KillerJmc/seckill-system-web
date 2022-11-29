@@ -61,37 +61,10 @@ const customerStore = useCustomerStore()
 const activityStore = useActivityStore()
 const settingsStore = useSettingsStore()
 
-// 客户信息
-const customer = ref({} as CustomerInfo)
-
-// 活动信息
-const activity = ref({ product: {}, rule: {} } as ActivityInfo)
-
-// 秒杀链接
-const seckillUrl = ref("")
-
-// 是否前往订单页面
-const gotoOrderPage = ref(false)
-
-// 订单信息
-const order = ref({} as Order)
-
-// 秒杀倒计时
-const countDown = reactive({
-    remainSeconds: 0,
-    display: false,
-    end: true
-})
-
-// 是否开启秒杀按钮
-const enableSeckillButton = computed(() => {
-    // 开启秒杀按钮的条件是客户已经得到秒杀id且倒计时结束
-    return seckillUrl.value !== "" && countDown.end
-})
-
 onBeforeMount(async () => {
     // 没有登录就返回主页
     if (!settingsStore.verifyLogin()) {
+        alert(MsgMapping.NOT_LOGGED_ON)
         await router.push("/")
     }
 
@@ -135,6 +108,34 @@ onBeforeMount(async () => {
             }
         }
     }, 1000)
+})
+
+// 客户信息
+const customer = ref({} as CustomerInfo)
+
+// 活动信息
+const activity = ref({ product: {}, rule: {} } as ActivityInfo)
+
+// 秒杀链接
+const seckillUrl = ref("")
+
+// 是否前往订单页面
+const gotoOrderPage = ref(false)
+
+// 订单信息
+const order = ref({} as Order)
+
+// 秒杀倒计时
+const countDown = reactive({
+    remainSeconds: 0,
+    display: false,
+    end: true
+})
+
+// 是否开启秒杀按钮
+const enableSeckillButton = computed(() => {
+    // 开启秒杀按钮的条件是客户已经得到秒杀id且倒计时结束
+    return seckillUrl.value !== "" && countDown.end
 })
 
 const seckillButton = async () => {
@@ -203,9 +204,9 @@ const countDownEnd = () => {
 }
 
 // 退出登录
-const logOut = () => {
-    settingsStore.logout()
-    router.push("/")
+const logOut = async () => {
+    await settingsStore.logout()
+    await router.push("/")
 }
 </script>
 

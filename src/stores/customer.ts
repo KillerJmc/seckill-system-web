@@ -26,17 +26,17 @@ export const useCustomerStore = defineStore("customer", {
 
         // 登录事件
         login(loginForm: LoginForm): PromiseR<void> {
-            const { accountIdOrIdNumber } = loginForm
+            const { accountOrIdNumber } = loginForm
 
             // 加密密码
             loginForm.password = Crypt.hash(loginForm.password)
 
             // 发送api请求
-            if (Verify.validIdNum(accountIdOrIdNumber!)) {
-                loginForm.idNumber = accountIdOrIdNumber
+            if (Verify.validIdNum(accountOrIdNumber!)) {
+                loginForm.idNumber = accountOrIdNumber
                 return Customer.loginByIdNumber(loginForm)
             } else {
-                loginForm.accountId = accountIdOrIdNumber
+                loginForm.account = accountOrIdNumber
                 return Customer.loginByAccount(loginForm)
             }
         },

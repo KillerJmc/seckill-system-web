@@ -83,26 +83,10 @@ const customerStore = useCustomerStore()
 const activityStore = useActivityStore()
 const settingsStore = useSettingsStore()
 
-// 确认申请对话框是否显示
-const applyDialogShow = ref(false)
-
-// 确认申请结果对话框是否显示
-const applyResultDialogShow = ref(false)
-// 确认申请结果对话框内容
-const applyResultDialogContent = ref("")
-
-// 申请结果
-let applyResult = {} as R<void>
-
-// 客户信息
-const customer = ref({} as CustomerInfo)
-
-// 活动信息
-const activity = ref({ product: {}, rule: {} } as ActivityInfo)
-
 onBeforeMount(async() => {
     // 没有登录就返回主页
     if (!settingsStore.verifyLogin()) {
+        alert(MsgMapping.NOT_LOGGED_ON)
         await router.push("/")
     }
 
@@ -123,6 +107,23 @@ onBeforeMount(async() => {
     // 填充秒杀活动信息
     activity.value = activityInfo.data
 })
+
+// 确认申请对话框是否显示
+const applyDialogShow = ref(false)
+
+// 确认申请结果对话框是否显示
+const applyResultDialogShow = ref(false)
+// 确认申请结果对话框内容
+const applyResultDialogContent = ref("")
+
+// 申请结果
+let applyResult = {} as R<void>
+
+// 客户信息
+const customer = ref({} as CustomerInfo)
+
+// 活动信息
+const activity = ref({ product: {}, rule: {} } as ActivityInfo)
 
 // 确认申请按钮
 const apply = async () => {
@@ -153,9 +154,9 @@ const goToSeckill = async() => {
 }
 
 // 退出登录
-const logOut = () => {
-    settingsStore.logout()
-    router.push("/")
+const logOut = async () => {
+    await settingsStore.logout()
+    await router.push("/")
 }
 </script>
 

@@ -4,7 +4,7 @@ import type { PromiseR } from "@/network/request"
 export default class Activity {
     // 获取当前秒杀活动信息接口
     static getCurrent(): PromiseR<ActivityInfo> {
-        return request.post("/seckillActivity/getCurrent")
+        return request.get("/seckillActivity/getCurrent")
     }
 
     // 申请秒杀接口
@@ -14,12 +14,12 @@ export default class Activity {
 
     // 获取倒计时接口
     static getCountDown(): PromiseR<number> {
-        return request.post("/seckillActivity/getCountDown")
+        return request.get("/seckillActivity/getCountDown")
     }
 
     // 获取秒杀链接接口
     static getSeckillUrl(): PromiseR<string> {
-        return request.post("/seckillActivity/getSeckillUrl")
+        return request.get("/seckillActivity/getSeckillUrl")
     }
 
     // 秒杀接口
@@ -29,7 +29,7 @@ export default class Activity {
 
     // 获取订单接口
     static getOrder(): PromiseR<Order> {
-        return request.post("/seckillActivity/getOrder")
+        return request.get("/seckillActivity/getOrder")
     }
 
     // 付款接口
