@@ -23,8 +23,7 @@ export const useSettingsStore = defineStore("settings", {
 
         // 验证是否登录
         verifyLogin(): boolean {
-            // 没有token并且store不含有客户名就是未登录状态
-            return !(customerStore.name === "" && !Token.get());
+            return !!Token.get();
         }
     }
 })
