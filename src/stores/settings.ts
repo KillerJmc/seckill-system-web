@@ -13,9 +13,6 @@ export const useSettingsStore = defineStore("settings", {
             // 调用退出登录接口
             await customerStore.logout()
 
-            // 清除token
-            Token.delete()
-
             // 清除stores
             activityStore.clearAll()
             customerStore.clearAll()
