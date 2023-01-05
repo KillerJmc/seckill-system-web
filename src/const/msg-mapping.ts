@@ -2,6 +2,9 @@ export default {
     // 账号或密码为空
     ACCOUNT_PWD_NULL_OR_EMPTY: "账号或密码为空",
 
+    // 账号不合法
+    INVALID_ACCOUNT: "账号不合法",
+
     // 账号或密码错误
     ACCOUNT_OR_PWD_ERROR: "账号或密码错误",
 

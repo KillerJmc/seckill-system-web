@@ -39,8 +39,8 @@ export default class Customer {
 
 // 登录表单
 export interface LoginForm {
-    accountOrIdNumber?: string,
-    account?: string,
+    accountOrIdNumber: string,
+    account?: number,
     idNumber?: string,
     password: string
 }

@@ -32,11 +32,11 @@ export const useCustomerStore = defineStore("customer", {
             loginForm.password = Crypt.hash(loginForm.password)
 
             // 发送api请求
-            if (Verify.validIdNum(accountOrIdNumber!)) {
+            if (Verify.validIdNum(accountOrIdNumber)) {
                 loginForm.idNumber = accountOrIdNumber
                 return Customer.loginByIdNumber(loginForm)
             } else {
-                loginForm.account = accountOrIdNumber
+                loginForm.account = Number.parseInt(accountOrIdNumber)
                 return Customer.loginByAccount(loginForm)
             }
         },
