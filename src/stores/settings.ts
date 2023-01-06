@@ -13,9 +13,6 @@ export const useSettingsStore = defineStore("settings", {
             // 调用退出登录接口
             await customerStore.logout()
 
-            // 清除token
-            Token.delete()
-
             // 清除stores
             activityStore.clearAll()
             customerStore.clearAll()
@@ -23,8 +20,7 @@ export const useSettingsStore = defineStore("settings", {
 
         // 验证是否登录
         verifyLogin(): boolean {
-            // 没有token并且store不含有客户名就是未登录状态
-            return !(customerStore.name === "" && !Token.get());
+            return !!Token.get();
         }
     }
 })

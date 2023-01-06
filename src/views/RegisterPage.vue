@@ -29,6 +29,7 @@ import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
 import { useSettingsStore } from "@/stores/settings"
 import { onBeforeMount } from "vue"
+import Verify from "@/util/verify"
 
 const router = useRouter()
 const customerStore = useCustomerStore()
@@ -58,6 +59,12 @@ const registerButton = async () => {
         return
     }
 
+    // 检查身份证号是否合法
+    if (!Verify.validIdNum(idNumber.value)) {
+        alert(MsgMapping.ID_NUM_FORMAT_ERROR)
+        return
+    }
+
     // 检查密码是否匹配
     if (password.value !== checkPassword.value) {
         await alert(MsgMapping.ENTER_TWICE_PWD_MISMATCH)
@@ -72,9 +79,11 @@ const registerButton = async () => {
     })
 
     // 如果注册成功就显示给用户注册账号信息并跳转登录界面
-    if (res.code !== 500) {
+    if (res.code === 200) {
         await alert("注册成功，您的账号为：" + res.data.account + "，正在为您跳转到登录界面...")
         await router.push("/")
+    } else {
+        await alert(res.message)
     }
 }
 </script>

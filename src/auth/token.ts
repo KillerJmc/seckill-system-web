@@ -5,8 +5,4 @@ export class Token {
     static get(): string | undefined {
         return Cookies.get(Const.TOKEN_NAME)
     }
-
-    static delete(): void {
-        Cookies.remove(Const.TOKEN_NAME)
-    }
 }

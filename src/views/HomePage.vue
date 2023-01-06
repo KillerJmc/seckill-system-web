@@ -7,7 +7,7 @@
 
       <form class="login-form">
         <p class="account-text">用户账号/身份证号</p>
-        <input v-model="accountOrIdNumber" type="number" class="account-bar">
+        <input v-model="accountOrIdNumber" class="account-bar">
         <p class="password-text">密码</p>
         <input v-model="password" @keyup.enter="login" type="password" class="password-bar" autocomplete="on">
       </form>
@@ -25,6 +25,7 @@ import { useRouter } from "vue-router"
 import { useCustomerStore } from "@/stores/customer"
 import { useSettingsStore } from "@/stores/settings"
 import { onBeforeMount } from "vue"
+import Verify from "@/util/verify"
 
 const router = useRouter()
 const customerStore = useCustomerStore()
@@ -38,7 +39,7 @@ onBeforeMount(async () => {
 })
 
 // 账号或身份证号
-const accountOrIdNumber = ref<number>()
+const accountOrIdNumber = ref("")
 
 // 密码
 const password = ref("")
@@ -51,9 +52,15 @@ const login = async() => {
         return
     }
 
+    // 检查账号是否合法
+    if (!Verify.validAccount(accountOrIdNumber.value)) {
+        alert(MsgMapping.INVALID_ACCOUNT)
+        return
+    }
+
     // 发送登录请求
     let res = await customerStore.login({
-        accountOrIdNumber: accountOrIdNumber.value.toString(),
+        accountOrIdNumber: accountOrIdNumber.value,
         password: password.value
     })
 
